@@ -62,11 +62,6 @@ pip install -r requirements.txt
 jupyter lab  # or: jupyter notebook
 ```
 
-If provided, you can also use the helper:
-```bash
-python setup_script.py
-```
-
 In PyCharm:  
 - Open the repo folder as a project.  
 - Set the project interpreter to the new conda environment (`csm`).  
