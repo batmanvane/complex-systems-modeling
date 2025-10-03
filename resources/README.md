@@ -19,18 +19,18 @@ This directory contains supplementary materials, reading guides, and curated lin
 
 These resources are good for getting comfortable with Python — syntax, data structures, functions, basic libraries — before diving into modeling.
 
-| Title | Description / Why it’s useful | Format / Access |
-|---|---|---|
-| **Official Python Tutorial** | The core introduction to the language | [docs.python.org/3/tutorial](https://docs.python.org/3/tutorial/) |
-| **Python HOWTOs** | Practical mini-guides on common topics (regex, argparse, unicode, etc.) | [docs.python.org/3/howto](https://docs.python.org/3/howto/) |
-| **Python Library Reference** | Documentation of the full standard library | [docs.python.org/3/library](https://docs.python.org/3/library/) |
-| **Python Package Index (PyPI)** | Repository of third-party packages | [pypi.org](https://pypi.org) |
-| *Automate the Boring Stuff with Python* by Al Sweigart | Very accessible, hands-on tasks | Free online / book |
-| *Python Crash Course* by Eric Matthes | A structured beginner course with projects | Book / eBook |
-| *Think Python* by Allen B. Downey | Introduction to programming using Python | [greenteapress.com/thinkpython2](https://greenteapress.com/thinkpython2/html/index.html) |
+| Title | Description / Why it’s useful | Format / Access                                                                             |
+|---|---|---------------------------------------------------------------------------------------------|
+| **Official Python Tutorial** | The core introduction to the language | [docs.python.org/3/tutorial](https://docs.python.org/3/tutorial/)                           |
+| **Python HOWTOs** | Practical mini-guides on common topics (regex, argparse, unicode, etc.) | [docs.python.org/3/howto](https://docs.python.org/3/howto/)                                 |
+| **Python Library Reference** | Documentation of the full standard library | [docs.python.org/3/library](https://docs.python.org/3/library/)                             |
+| **Python Package Index (PyPI)** | Repository of third-party packages | [pypi.org](https://pypi.org)                                                                |
+| *Automate the Boring Stuff with Python* by Al Sweigart | Very accessible, hands-on tasks | [Online / book](https://automatetheboringstuff.com)                                         |
+| *Python Crash Course* by Eric Matthes | A structured beginner course with projects | Book / eBook [source codes online](https://github.com/ehmatthes/pcc_3e/)                    |
+| *Think Python* by Allen B. Downey | Introduction to programming using Python | [greenteapress.com/thinkpython2](https://greenteapress.com/thinkpython2/html/index.html)    |
 | *A Whirlwind Tour of Python* by Gaël Varoquaux | Compact, fast-paced intro to Python essentials | [jakevdp.github.io/WhirlwindTourOfPython](https://jakevdp.github.io/WhirlwindTourOfPython/) |
-| Real Python (website) | Tutorials, articles, deep dives | [realpython.com](https://realpython.com/) |
-| W3Schools Python Tutorial | Quick reference & interactive examples | [w3schools.com/python](https://www.w3schools.com/python/) |
+| Real Python (website) | Tutorials, articles, deep dives | [realpython.com](https://realpython.com/)                                                   |
+| W3Schools Python Tutorial | Quick reference & interactive examples | [w3schools.com/python](https://www.w3schools.com/python/)                                   |
 
 **Suggested progression:**
 
