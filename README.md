@@ -11,8 +11,7 @@ Learn how (and why) to build models of complex systems — from dynamical system
 - `notebooks/` – runnable Jupyter notebooks (demos, templates, and explorations).  
 - `miniprojects/` – bi-weekly, open-ended modeling problems for deeper practice.  
 - `resources/` – readings, links, datasets, and cheatsheets.  
-- `requirements.txt` – Python dependencies for local installs.  
-- `setup_script.py` – helper to bootstrap a fresh environment (optional).
+- `requirements.txt` – Python dependencies for local installs. (not yet defined)
 
 > License: **Creative Commons BY-SA 4.0** (you may share/adapt with attribution & share-alike).
 
