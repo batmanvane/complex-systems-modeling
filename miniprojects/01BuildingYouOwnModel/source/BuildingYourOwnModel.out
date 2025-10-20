@@ -1,0 +1,15 @@
+\BOOKMARK [1][-]{section.1}{Learning Goals}{}% 1
+\BOOKMARK [1][-]{section.2}{The Logistic Growth Model \(1D\)}{}% 2
+\BOOKMARK [2][-]{subsection.2.1}{Model construction}{section.2}% 3
+\BOOKMARK [2][-]{subsection.2.2}{Numerical simulation in Python/Colab}{section.2}% 4
+\BOOKMARK [2][-]{subsection.2.3}{Tasks}{section.2}% 5
+\BOOKMARK [1][-]{section.3}{The Predator\205Prey System \(2D\)}{}% 6
+\BOOKMARK [2][-]{subsection.3.1}{Meaning of parameters}{section.3}% 7
+\BOOKMARK [2][-]{subsection.3.2}{Initial code example}{section.3}% 8
+\BOOKMARK [2][-]{subsection.3.3}{Tasks}{section.3}% 9
+\BOOKMARK [1][-]{section.4}{Mini Projects}{}% 10
+\BOOKMARK [2][-]{subsection.4.1}{Project 1: Logistic growth with harvesting}{section.4}% 11
+\BOOKMARK [2][-]{subsection.4.2}{Project 2: Predator\205prey with saturation}{section.4}% 12
+\BOOKMARK [1][-]{section.5}{Supporting Hints for Simulation}{}% 13
+\BOOKMARK [1][-]{section.6}{Deliverables}{}% 14
+\BOOKMARK [1][-]{section.7}{General Hints}{}% 15

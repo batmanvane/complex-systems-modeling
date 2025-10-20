@@ -1,0 +1,230 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+
+\title{Modeling Tutorial: From One-Dimensional Growth to Predator--Prey Systems}
+\author{Prof.\ Robert J. Flassig}
+\date{\today}
+
+\lstset{
+  basicstyle=\ttfamily\footnotesize,
+  backgroundcolor=\color{gray!10},
+  frame=single,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+  keywordstyle=\color{blue},
+  commentstyle=\color{gray!70}\itshape
+}
+
+% --- No paragraph indent, small skip between paragraphs ---
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.8em}
+
+\newcommand{\dd}{\mathrm{d}}
+
+\begin{document}
+\maketitle
+
+\section{Learning Goals}
+By the end of this tutorial you will be able to
+\begin{itemize}[leftmargin=*,itemsep=0.3em]
+  \item translate verbal assumptions into quantitative models,
+  \item simulate and visualize the dynamics of nonlinear systems,
+  \item interpret the meaning of model parameters in a physical or ecological context,
+  \item explore how parameter changes affect qualitative system behavior,
+  \item optionally: perform stability and phase-space analysis.
+\end{itemize}
+
+\section{The Logistic Growth Model (1D)}
+We start with a single variable $x(t)$ representing, for example, a population size or concentration.
+
+\subsection{Model construction}
+\textbf{(Verbal) Assumptions:}
+\begin{enumerate}[label=\textbf{A\arabic*},leftmargin=*]
+  \item The population grows at a rate proportional to its current size.
+  \item Growth slows down as the population approaches a maximum capacity $K$.
+\end{enumerate}
+
+
+\textbf{Modeling Verbal Assumptions:}
+\[
+\frac{\dd x}{\dd t} = r\,x\!\left(1-\frac{x}{K}\right),
+\]
+where
+\begin{itemize}[leftmargin=2em,itemsep=0.2em]
+  \item $r$: intrinsic growth rate [1/time],
+  \item $K$: carrying capacity,
+  \item $x$: population size.
+\end{itemize}
+
+\textbf{Interpretation:}  
+At small $x$, the term $(1 - x/K)\approx1$, and we recover exponential growth.  
+As $x\to K$, the growth term approaches zero—resources limit further increase.
+
+\subsection{Numerical simulation in Python/Colab}
+Below is an example of a minimal simulation using the \texttt{Euler} method:
+
+\begin{lstlisting}[language=Python,caption={Simple Euler integration of the logistic model}]
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+r = 1.0     # growth rate
+K = 10.0    # carrying capacity
+x0 = 0.5    # initial population
+dt = 0.01   # time step
+T  = 10.0   # total time
+
+# Time vector and storage
+t = np.arange(0, T, dt)
+x = np.zeros_like(t)
+x[0] = x0
+
+# Euler integration
+for i in range(1, len(t)):
+    dxdt = r * x[i-1] * (1 - x[i-1]/K)
+    x[i] = x[i-1] + dt * dxdt
+
+# Plot
+plt.plot(t, x)
+plt.xlabel("time t")
+plt.ylabel("population x")
+plt.title("Logistic growth")
+plt.show()
+\end{lstlisting}
+
+\subsection{Tasks}
+\begin{enumerate}[label=\textbf{T\arabic*},leftmargin=*]
+  \item Interpret the parameters $r$ and $K$: what does changing each do biologically or physically?
+  \item Re-run the simulation for several $r$ values. How does the system’s approach to equilibrium change?
+  \item Add an initial condition $x_0 > K$ and interpret the dynamics.
+  \item Create a small plot grid comparing different $r$ and $K$ combinations.
+  \item \textbf{Optional:} Determine analytically the equilibrium points and their stability.
+\end{enumerate}
+
+\section{The Predator--Prey System (2D)}
+Now consider a coupled system of two interacting populations:
+\begin{align}
+\frac{\dd x}{\dd t} &= r\,x\!\left(1-\frac{x}{K}\right) - \alpha x y,\\
+\frac{\dd y}{\dd t} &= \beta x y - \delta y.
+\end{align}
+
+\subsection{Meaning of parameters}
+\begin{itemize}[leftmargin=2em,itemsep=0.2em]
+  \item $r$: prey reproduction rate,
+  \item $K$: prey carrying capacity,
+  \item $\alpha$: predation rate coefficient,
+  \item $\beta$: efficiency with which prey consumption translates to predator growth,
+  \item $\delta$: predator death rate.
+\end{itemize}
+
+\subsection{Initial code example}
+The same Euler idea extends easily:
+
+\begin{lstlisting}[language=Python,caption={Predator-prey simulation (Euler scheme)}]
+# Parameters
+r, K = 1.0, 5.0
+alpha, beta, delta = 0.2, 0.1, 0.4
+x0, y0 = 1.0, 0.5
+dt, T = 0.01, 100.0
+
+t = np.arange(0, T, dt)
+x, y = np.zeros_like(t), np.zeros_like(t)
+x[0], y[0] = x0, y0
+
+for i in range(1, len(t)):
+    dx = r*x[i-1]*(1 - x[i-1]/K) - alpha*x[i-1]*y[i-1]
+    dy = beta*x[i-1]*y[i-1] - delta*y[i-1]
+    x[i] = x[i-1] + dt*dx
+    y[i] = y[i-1] + dt*dy
+
+plt.figure(figsize=(10,4))
+plt.subplot(1,2,1)
+plt.plot(t, x, label="prey")
+plt.plot(t, y, label="predator")
+plt.xlabel("time"); plt.legend()
+
+plt.subplot(1,2,2)
+plt.plot(x, y)
+plt.xlabel("prey x"); plt.ylabel("predator y")
+plt.title("Phase space")
+plt.tight_layout(); plt.show()
+\end{lstlisting}
+
+\subsection{Tasks}
+\begin{enumerate}[label=\textbf{P\arabic*},leftmargin=*]
+  \item Interpret each parameter in words. Which ones affect prey equilibrium? Which influence oscillation amplitude?
+  \item Run the model for baseline parameters. Describe the qualitative time evolution.
+  \item Produce a phase-space plot $(x,y)$. What kind of trajectory emerges?
+  \item Vary one parameter systematically (e.g.\ $\alpha$ or $\delta$) and discuss changes in the qualitative behavior.
+  \item \textbf{Optional:} Add nullcline plots and use arrows to indicate direction fields.
+\end{enumerate}
+
+\section{Mini Projects}
+\subsection{Project 1: Logistic growth with harvesting}
+Add a constant harvest term $h$:
+\[
+\frac{\dd x}{\dd t} = r\,x\!\left(1-\frac{x}{K}\right) - h.
+\]
+\textbf{Questions:}
+\begin{enumerate}[label=\alph*.,leftmargin=*]
+  \item For what $h$ does the population go extinct? 
+  \item Simulate several $h$ values and visualize $x(t)$.
+  \item Estimate the critical $h_c$ separating survival and extinction.
+  \item Discuss management implications (sustainable yield).
+\end{enumerate}
+
+\subsection{Project 2: Predator--prey with saturation}
+Use the Holling's type II response:
+\[
+\frac{\dd x}{\dd t} = r\,x\!\left(1-\frac{x}{K}\right) - \frac{\alpha x}{1 + h x}y, \quad
+\frac{\dd y}{\dd t} = \beta x y - \delta y.
+\]
+\textbf{Tasks:}
+\begin{enumerate}[label=\alph*.,leftmargin=*]
+  \item Implement the model and vary $h$.
+  \item Compare time series and phase-space trajectories.
+  \item Interpret biologically how the handling time $h$ changes stability.
+  \item \textbf{Optional:} derive the nullclines and discuss stability.
+\end{enumerate}
+
+\section{Supporting Hints for Simulation}
+\begin{itemize}[leftmargin=*,itemsep=0.25em]
+  \item Reuse and modify the \textbf{Google Colab templates} provided in class.  
+        They contain ready-made plotting cells and Euler integration loops.
+  \item When in doubt, test your code with small time steps (\texttt{dt = 0.001}) and compare to larger ones.
+  \item Experiment with \texttt{scipy.integrate.solve\_ivp} for higher accuracy.
+  \item Use modern AI assistants (\textbf{ChatGPT}, \textbf{Claude.ai}, etc.) to:
+        \begin{itemize}
+          \item debug code and syntax errors,
+          \item generate plotting routines or parameter sweep loops,
+          \item check your understanding of equations and their derivatives.
+        \end{itemize}
+  \item Always document AI-assisted contributions and verify numerical results independently.
+  \item Comment each code cell clearly: what parameters did you change and why?
+\end{itemize}
+
+\section{Deliverables}
+Your short report (2--4 pages) should include:
+\begin{itemize}[leftmargin=*,itemsep=0.25em]
+  \item Equations and parameter definitions.
+  \item Plots of time series and phase-space trajectories.
+  \item Interpretation of how parameters affect dynamics.
+  \item \textbf{Optional:} analytical or stability results.
+  \item Reflection on modeling choices and learning outcomes.
+\end{itemize}
+
+\section{General Hints}
+\begin{itemize}[leftmargin=*,itemsep=0.25em]
+  \item Use dimensionless time $\tau = r t$ to reduce parameter count.
+  \item Normalize populations by $K$ to simplify visualization.
+  \item If results diverge or oscillate unnaturally, reduce $\Delta t$.
+  \item For visual clarity, annotate phase-space arrows with \texttt{quiver()} or \texttt{streamplot()}.
+\end{itemize}
+
+\end{document}
