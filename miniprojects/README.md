@@ -16,5 +16,6 @@ Each project folder typically includes:
 
 ## Additional Resources
 Supplementary material for the *Building Your Own Model* project, including curated video tutorials on logistic and predator-prey models, is available in  
-[resources/](https://github.com/batmanvane/complex-systems-modeling/tree/main/resources).
+[resources/](../resources/)  
+(or view online [here](https://github.com/batmanvane/complex-systems-modeling/tree/main/resources)).
 
