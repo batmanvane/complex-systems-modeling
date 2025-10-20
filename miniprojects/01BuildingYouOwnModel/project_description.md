@@ -17,5 +17,5 @@ Students will:
 
 ## Additional Resources
 For complementary explanations and coding demonstrations, consult  
-[`resources/youtube_tutorials.md`](../resources/youtube_tutorials.md).  
+[`resources/youtube_tutorials.md`](../../../resources/youtube_tutorials.md).  
 It lists recommended YouTube tutorials that show logistic growth, predator–prey simulation, and phase-space visualization in Python.

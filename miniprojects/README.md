@@ -16,4 +16,4 @@ Each project folder typically includes:
 
 ## Additional Resources
 Supplementary material for the *Building Your Own Model* project, including curated video tutorials on logistic and predator-prey models, is available in  
-[`resources/youtube_tutorials.md`](../resources/youtube_tutorials.md).
+[`resources/youtube_tutorials.md`](../../resources/youtube_tutorials.md).
