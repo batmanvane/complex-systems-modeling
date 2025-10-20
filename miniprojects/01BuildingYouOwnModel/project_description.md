@@ -17,7 +17,7 @@ Students will:
 
 ## Additional Resources
 For complementary explanations and coding demonstrations, consult  
- [resources/youtube_list.md](../resources/youtube_list.md)  
+ [resources/youtube_list.md](../../resources/youtube_list.md)  
 (or view online [here](https://github.com/batmanvane/complex-systems-modeling/blob/main/resources/youtube_list.md)).
 
 
