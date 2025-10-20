@@ -17,5 +17,8 @@ Students will:
 
 ## Additional Resources
 For complementary explanations and coding demonstrations, consult  
-[youtube_list.md](https://github.com/batmanvane/complex-systems-modeling/blob/main/resources/youtube_list.md).
+ [resources/youtube_list.md](../resources/youtube_list.md)  
+(or view online [here](https://github.com/batmanvane/complex-systems-modeling/blob/main/resources/youtube_list.md)).
+
+
 It lists recommended YouTube tutorials that show logistic growth, predator–prey simulation, and phase-space visualization in Python.
