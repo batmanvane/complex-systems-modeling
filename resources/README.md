@@ -47,15 +47,15 @@ These resources are good for getting comfortable with Python — syntax, data st
 
 Once you are comfortable coding in Python, you can start exploring modeling techniques, theory, and simulation frameworks in complexity science.
 
-| Title | Author / Editor | Why it’s useful for this course | Format / Access |
-|---|---|---|---|
-| *Introduction to the Modeling and Analysis of Complex Systems* | Hiroki Sayama | Modular overview of modeling frameworks (discrete, continuous, networks, agent-based) with Python examples | [Open Textbook](https://open.umn.edu/opentextbooks/textbooks/233) |
-| *Complexity: A Guided Tour* | Melanie Mitchell | Conceptual introduction to complexity, emergence, networks, adaptive systems | Book |
-| *Nonlinear Dynamics and Chaos* | Steven Strogatz | Entry into dynamical systems, bifurcations, chaos | Book |
-| *Networks: An Introduction* | Mark Newman | Comprehensive treatment of network theory | Book |
-| *Agent-Based and Individual-Based Modeling* | Steven Railsback & Volker Grimm | Practical guidance for simulation models | Book |
-| *Sync* | Steven Strogatz | Accessible overview of synchronization & nonlinear dynamics | Book |
-| *Modeling Infectious Diseases in Humans and Animals* | Keeling & Rohani | Domain-specific modeling with useful methods | Book |
+| Title | Author / Editor | Why it’s useful for this course | Format / Access                                                                                               |
+|---|---|---|---------------------------------------------------------------------------------------------------------------|
+| *Introduction to the Modeling and Analysis of Complex Systems* | Hiroki Sayama | Modular overview of modeling frameworks (discrete, continuous, networks, agent-based) with Python examples | [Open Textbook](https://open.umn.edu/opentextbooks/textbooks/233)                                             |
+| *Complexity: A Guided Tour* | Melanie Mitchell | Conceptual introduction to complexity, emergence, networks, adaptive systems | Book                                                                                                          |
+| *Nonlinear Dynamics and Chaos* | Steven Strogatz | Entry into dynamical systems, bifurcations, chaos | [Open Book](https://www.biodyn.ro/course/literatura/Nonlinear_Dynamics_and_Chaos_2018_Steven_H._Strogatz.pdf) |
+| *Networks: An Introduction* | Mark Newman | Comprehensive treatment of network theory | Book                                                                                                          |
+| *Agent-Based and Individual-Based Modeling* | Steven Railsback & Volker Grimm | Practical guidance for simulation models | Book                                                                                                          |
+| *Sync* | Steven Strogatz | Accessible overview of synchronization & nonlinear dynamics | Book                                                                                                          |
+| *Modeling Infectious Diseases in Humans and Animals* | Keeling & Rohani | Domain-specific modeling with useful methods | Book                                                                                                          |
 
 ---
 
