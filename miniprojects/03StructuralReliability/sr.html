@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interaktive Strukturelle Zuverlässigkeit</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --danger: #e74c3c;
+            --success: #27ae60;
+            --bg: #f4f7f6;
+        }
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        h1, h2 { color: var(--primary); }
+        .grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        @media (max-width: 900px) {
+            .grid { grid-template-columns: 1fr; }
+        }
+
+        /* Controls Styling */
+        .controls {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+        }
+        .control-group { margin-bottom: 25px; }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        input[type=range] {
+            width: 100%;
+            cursor: pointer;
+        }
+        .value-display { color: var(--accent); font-family: monospace; }
+
+        /* Results Box */
+        .results-box {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.1em;
+            margin: 5px 0;
+        }
+        .big-beta {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #f1c40f;
+        }
+
+        /* Simulation Button */
+        .sim-btn {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1rem;
+            margin-top: 10px;
+            transition: background 0.3s;
+        }
+        .sim-btn:hover { background: #2980b9; }
+        .sim-result {
+            margin-top: 10px;
+            font-size: 0.9em;
+            padding: 10px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            display: none;
+        }
+
+        /* Charts */
+        .charts { display: flex; flex-direction: column; gap: 20px; }
+        .chart-container {
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 10px;
+            background: white;
+            min-height: 350px;
+        }
+
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid var(--accent);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        /* Schematic Diagram Styling */
+        .schematic-container {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            background-color: #fafafa;
+        }
+        .schematic-svg {
+            max-width: 100%;
+            height: auto;
+            max-height: 150px;
+        }
+        .schematic-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Interaktives Labor: Strukturelle Zuverlässigkeit</h1>
+
+    <div class="info-box">
+        <strong>Forschungsaufgabe:</strong> Verändern Sie die Parameter für Belastung (Load S) und Widerstand (Resistance R).
+        Beobachten Sie, wie sich die Überlappung der Kurven auf den Zuverlässigkeitsindex \(\beta\) auswirkt.
+        <br><em>Ziel: Ein \(\beta \ge 3.0\) wird im Ingenieurwesen oft angestrebt.</em>
+    </div>
+
+    <div class="schematic-container">
+        <svg class="schematic-svg" viewBox="0 0 600 120" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#e74c3c" />
+                </marker>
+                <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                    <polygon points="0 0, 10 3.5, 0 7" fill="#3498db" />
+                </marker>
+            </defs>
+
+            <rect x="150" y="40" width="300" height="40" fill="#ecf0f1" stroke="#2c3e50" stroke-width="2" rx="5" />
+
+            <path d="M 290 40 L 300 80 M 300 40 L 310 80" stroke="#95a5a6" stroke-width="2" stroke-dasharray="4" />
+
+            <text x="300" y="65" font-family="sans-serif" font-size="14" fill="#2c3e50" text-anchor="middle" font-weight="bold">
+                Widerstand R (Materialfestigkeit)
+            </text>
+
+            <line x1="140" y1="60" x2="50" y2="60" stroke="#e74c3c" stroke-width="4" marker-end="url(#arrowhead-red)" />
+
+            <line x1="460" y1="60" x2="550" y2="60" stroke="#e74c3c" stroke-width="4" marker-end="url(#arrowhead-red)" />
+
+            <text x="40" y="50" font-family="sans-serif" font-size="16" fill="#e74c3c" font-weight="bold">S</text>
+            <text x="560" y="50" font-family="sans-serif" font-size="16" fill="#e74c3c" font-weight="bold">S</text>
+
+            <text x="300" y="110" font-family="sans-serif" font-size="14" fill="#555" text-anchor="middle">
+                Versagen tritt ein, wenn Belastung \(S > R\) (bzw. \(R - S < 0\))
+            </text>
+        </svg>
+    </div>
+
+    <div class="grid">
+        <div class="controls">
+            <h3>Parameter</h3>
+
+            <div class="control-group" style="border-left: 4px solid blue; padding-left: 10px;">
+                <h4>Widerstand \(R\) (Blau)</h4>
+                <div class="slider-label">
+                    <span>Mittelwert \(\mu_R\)</span>
+                    <span class="value-display" id="val_mu_R">250</span> MPa
+                </div>
+                <input type="range" id="mu_R" min="100" max="400" value="250" step="1">
+
+                <div class="slider-label">
+                    <span>Std.Abw. \(\sigma_R\)</span>
+                    <span class="value-display" id="val_sigma_R">25</span> MPa
+                </div>
+                <input type="range" id="sigma_R" min="1" max="100" value="25" step="1">
+            </div>
+
+            <div class="control-group" style="border-left: 4px solid red; padding-left: 10px;">
+                <h4>Belastung \(S\) (Rot)</h4>
+                <div class="slider-label">
+                    <span>Mittelwert \(\mu_S\)</span>
+                    <span class="value-display" id="val_mu_S">150</span> MPa
+                </div>
+                <input type="range" id="mu_S" min="50" max="350" value="150" step="1">
+
+                <div class="slider-label">
+                    <span>Std.Abw. \(\sigma_S\)</span>
+                    <span class="value-display" id="val_sigma_S">30</span> MPa
+                </div>
+                <input type="range" id="sigma_S" min="1" max="100" value="30" step="1">
+            </div>
+
+            <div class="results-box">
+                <div class="result-row">
+                    <span>Zuverlässigkeit \(\beta\):</span>
+                    <span id="res_beta" class="big-beta">2.56</span>
+                </div>
+                <div class="result-row">
+                    <span>Versagenswahr. \(P_f\):</span>
+                    <span id="res_pf">0.005</span>
+                </div>
+            </div>
+
+            <div style="margin-top: 20px; border-top: 1px solid #ccc; padding-top: 10px;">
+                <h4>Monte Carlo Simulation</h4>
+                <p style="font-size: 0.85em; color: #666;">Führt 50.000 Zufallsexperimente basierend auf den obigen Einstellungen durch.</p>
+                <button class="sim-btn" onclick="runMonteCarlo()">Simulation starten</button>
+                <div id="mc_result" class="sim-result">
+                    Berechne...
+                </div>
+            </div>
+        </div>
+
+        <div class="charts">
+            <div id="chart_interference" class="chart-container"></div>
+
+            <div id="chart_margin" class="chart-container"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- Mathematik Hilfsfunktionen ---
+
+    // Normalverteilung PDF
+    function normalPDF(x, mu, sigma) {
+        return (1 / (sigma * Math.sqrt(2 * Math.PI))) * Math.exp(-0.5 * Math.pow((x - mu) / sigma, 2));
+    }
+
+    // Standard Normal CDF (Approximation)
+    function stdNormalCDF(x) {
+        var t = 1 / (1 + .2316419 * Math.abs(x));
+        var d = .3989423 * Math.exp(-x * x / 2);
+        var prob = d * t * (.3193815 + t * (-.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+        if (x > 0) prob = 1 - prob;
+        return prob;
+    }
+
+    // Box-Muller Transform für Zufallszahlen
+    function randn_bm() {
+        let u = 0, v = 0;
+        while(u === 0) u = Math.random();
+        while(v === 0) v = Math.random();
+        return Math.sqrt( -2.0 * Math.log( u ) ) * Math.cos( 2.0 * Math.PI * v );
+    }
+
+    // --- State Management ---
+    const state = {
+        mu_R: 250, sigma_R: 25,
+        mu_S: 150, sigma_S: 30
+    };
+
+    // DOM Elements
+    const inputs = {
+        mu_R: document.getElementById('mu_R'),
+        sigma_R: document.getElementById('sigma_R'),
+        mu_S: document.getElementById('mu_S'),
+        sigma_S: document.getElementById('sigma_S')
+    };
+
+    const displays = {
+        mu_R: document.getElementById('val_mu_R'),
+        sigma_R: document.getElementById('val_sigma_R'),
+        mu_S: document.getElementById('val_mu_S'),
+        sigma_S: document.getElementById('val_sigma_S'),
+        beta: document.getElementById('res_beta'),
+        pf: document.getElementById('res_pf')
+    };
+
+    // --- Update Logic ---
+    function update() {
+        // Werte aus Slidern lesen
+        state.mu_R = parseFloat(inputs.mu_R.value);
+        state.sigma_R = parseFloat(inputs.sigma_R.value);
+        state.mu_S = parseFloat(inputs.mu_S.value);
+        state.sigma_S = parseFloat(inputs.sigma_S.value);
+
+        // Text Displays aktualisieren
+        displays.mu_R.textContent = state.mu_R;
+        displays.sigma_R.textContent = state.sigma_R;
+        displays.mu_S.textContent = state.mu_S;
+        displays.sigma_S.textContent = state.sigma_S;
+
+        // Analytische Berechnung
+        const mu_M = state.mu_R - state.mu_S;
+        const sigma_M = Math.sqrt(state.sigma_R**2 + state.sigma_S**2);
+        const beta = mu_M / sigma_M;
+        const pf = stdNormalCDF(-beta);
+
+        // Ergebnisse anzeigen
+        displays.beta.textContent = beta.toFixed(3);
+        displays.pf.textContent = pf.toExponential(3);
+
+        // Farbe anpassen je nach Sicherheit
+        if (beta < 2.0) displays.beta.style.color = '#e74c3c'; // Rot
+        else if (beta < 3.0) displays.beta.style.color = '#f1c40f'; // Gelb
+        else displays.beta.style.color = '#2ecc71'; // Grün
+
+        // Grafiken neu zeichnen
+        plotInterference();
+        plotSafetyMargin(mu_M, sigma_M, pf);
+
+        // MC Resultat verstecken, wenn Parameter geändert werden
+        document.getElementById('mc_result').style.display = 'none';
+    }
+
+    // --- Plotting Functions ---
+
+    function plotInterference() {
+        const minX = Math.min(state.mu_S - 4*state.sigma_S, state.mu_R - 4*state.sigma_R);
+        const maxX = Math.max(state.mu_S + 4*state.sigma_S, state.mu_R + 4*state.sigma_R);
+        const x = [];
+        const yR = [];
+        const yS = [];
+
+        // Generiere Punkte
+        for (let i = minX; i <= maxX; i += (maxX-minX)/200) {
+            x.push(i);
+            yR.push(normalPDF(i, state.mu_R, state.sigma_R));
+            yS.push(normalPDF(i, state.mu_S, state.sigma_S));
+        }
+
+        const traceR = {
+            x: x, y: yR,
+            type: 'scatter', mode: 'lines',
+            name: 'Widerstand R',
+            line: {color: 'blue', width: 3},
+            fill: 'tozeroy',
+            fillcolor: 'rgba(0, 0, 255, 0.1)'
+        };
+
+        const traceS = {
+            x: x, y: yS,
+            type: 'scatter', mode: 'lines',
+            name: 'Belastung S',
+            line: {color: 'red', width: 3},
+            fill: 'tozeroy',
+            fillcolor: 'rgba(255, 0, 0, 0.1)'
+        };
+
+        const layout = {
+            title: 'Interferenz von Belastung und Widerstand',
+            xaxis: {title: 'Spannung (MPa)'},
+            yaxis: {title: 'Wahrscheinlichkeitsdichte', showticklabels: false},
+            margin: {t: 40, b: 40, l: 50, r: 20},
+            showlegend: true,
+            legend: {x: 1, y: 1}
+        };
+
+        Plotly.newPlot('chart_interference', [traceS, traceR], layout, {responsive: true, displayModeBar: false});
+    }
+
+    function plotSafetyMargin(mu_M, sigma_M, pf) {
+        const minX = mu_M - 4*sigma_M;
+        const maxX = mu_M + 4*sigma_M;
+
+        // Volle Kurve
+        const x = [];
+        const y = [];
+        for (let i = minX; i <= maxX; i += (maxX-minX)/200) {
+            x.push(i);
+            y.push(normalPDF(i, mu_M, sigma_M));
+        }
+
+        // Failure Region (x < 0)
+        const xFail = [];
+        const yFail = [];
+        for (let i = minX; i <= 0; i += (0 - minX)/50) {
+            xFail.push(i);
+            yFail.push(normalPDF(i, mu_M, sigma_M));
+        }
+        // Abschluss bei 0 für sauberen Fill
+        xFail.push(0); yFail.push(0);
+
+        const traceM = {
+            x: x, y: y,
+            type: 'scatter', mode: 'lines',
+            name: 'Sicherheitsmarge M',
+            line: {color: 'green', width: 3}
+        };
+
+        const traceFail = {
+            x: xFail, y: yFail,
+            type: 'scatter', mode: 'none',
+            name: `Versagen (Pf=${pf.toExponential(2)})`,
+            fill: 'tozeroy',
+            fillcolor: 'rgba(231, 76, 60, 0.6)', // Starkes Rot
+            hoverinfo: 'none'
+        };
+
+        const layout = {
+            title: 'Verteilung der Sicherheitsmarge Z = R - S',
+            xaxis: {title: 'Marge (MPa)'},
+            yaxis: {title: 'Wahrscheinlichkeitsdichte', showticklabels: false},
+            margin: {t: 40, b: 40, l: 50, r: 20},
+            shapes: [
+                {
+                    type: 'line',
+                    x0: 0, y0: 0, x1: 0, y1: Math.max(...y)*1.1,
+                    line: {color: 'black', width: 2, dash: 'dash'}
+                }
+            ],
+            annotations: [
+                {
+                    x: 0, y: Math.max(...y)*1.1,
+                    xref: 'x', yref: 'y',
+                    text: 'Grenz-zustand',
+                    showarrow: true,
+                    arrowhead: 2,
+                    ax: 0, ay: -30
+                }
+            ]
+        };
+
+        Plotly.newPlot('chart_margin', [traceM, traceFail], layout, {responsive: true, displayModeBar: false});
+    }
+
+    // --- Monte Carlo Simulation ---
+    function runMonteCarlo() {
+        const div = document.getElementById('mc_result');
+        div.style.display = 'block';
+        div.innerHTML = 'Simuliere... <div style="width:100%;height:4px;background:#ddd;margin-top:5px;"><div style="width:50%;height:100%;background:blue;animation:load 1s infinite;"></div></div>';
+
+        // Kurze Verzögerung damit UI updated
+        setTimeout(() => {
+            const n = 50000;
+            let failures = 0;
+
+            for(let i=0; i<n; i++) {
+                // Erzeuge Zufallswerte für R und S
+                const r_val = state.mu_R + state.sigma_R * randn_bm();
+                const s_val = state.mu_S + state.sigma_S * randn_bm();
+
+                if ((r_val - s_val) < 0) {
+                    failures++;
+                }
+            }
+
+            const pf_mc = failures / n;
+            const error = Math.abs(pf_mc - parseFloat(displays.pf.textContent)) / parseFloat(displays.pf.textContent) * 100;
+
+            div.innerHTML = `
+                <strong>Ergebnis (N=${n.toLocaleString()}):</strong><br>
+                Versager: ${failures}<br>
+                \(P_{f,MC}\): <span style="color:blue">${pf_mc.toExponential(3)}</span><br>
+                Abweichung zur Theorie: ${isNaN(error) ? '0' : error.toFixed(2)}%
+            `;
+        }, 100);
+    }
+
+    // --- Event Listeners ---
+    Object.values(inputs).forEach(input => {
+        input.addEventListener('input', update);
+    });
+
+    // Initialisierung
+    update();
+
+</script>
+
+<style>
+@keyframes load {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+}
+</style>
+
+</body>
+</html>
