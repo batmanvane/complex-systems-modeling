@@ -1,0 +1,489 @@
+\documentclass[aspectratio=169]{beamer}
+
+% THEME & LANGUAGE -------------------------------------------------
+\usetheme{Berlin}
+\usecolortheme{default}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+
+% MATH & SYMBOLS ---------------------------------------------------
+\usepackage{amsmath, amssymb, bm}
+\usepackage{siunitx}
+\usepackage{booktabs}
+
+% SHORTCUTS --------------------------------------------------------
+\newcommand{\Rsys}{R_{\mathrm{sys}}}
+\newcommand{\Pf}{P_{\mathrm{f}}}
+\newcommand{\Ps}{P_{\mathrm{s}}}
+\newcommand{\gfun}{g}
+
+% TITLE INFO -------------------------------------------------------
+\title[Structural Reliability]{From System Reliability to Structural Reliability}
+\subtitle{Complex Systems Modeling – Structural Reliability Primer}
+\author{Robert Flassig}
+\institute[THB]{Technische Hochschule Brandenburg}
+\date{\today}
+
+% DOCUMENT START ===================================================
+\begin{document}
+
+% TITLE FRAME ------------------------------------------------------
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Course Material (Moodle)}
+  \begin{block}{Python Jupyter Notebook}
+    A Python Jupyter notebook with all examples and code snippets
+    for this lecture is available on Moodle.
+  \end{block}
+  \vspace{0.5cm}
+  \begin{itemize}
+    \item Includes: tension member example, Monte Carlo simulation,
+          and cantilever beam reliability.
+    \item You can run and modify all code interactively.
+  \end{itemize}
+\end{frame}
+
+
+% OUTLINE ----------------------------------------------------------
+\begin{frame}{Outline}
+  \tableofcontents
+\end{frame}
+
+% =================================================================
+\section{Recap: Component \& System Reliability}
+
+% COMPONENT RELIABILITY -------------------------------------------
+\begin{frame}{Component Reliability: \(R(t)\)}
+  \begin{itemize}
+    \item We model the lifetime \(T\) of a component as a random variable.
+    \item Reliability function:
+      \[
+        R(t) = \Pr(T > t) = 1 - F_T(t).
+      \]
+    \item For many mechanical components we assume a Weibull model:
+      \[
+        R(t) = \exp\!\left[-\left(\frac{t}{\eta}\right)^{\beta}\right],
+      \]
+      with scale parameter \(\eta\) and shape parameter \(\beta\).
+    \item Interpretation:
+      \begin{itemize}
+        \item \(\beta < 1\): early failures (infant mortality),
+        \item \(\beta \approx 1\): random failures,
+        \item \(\beta > 1\): wear-out.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% SYSTEM RELIABILITY BASIC ----------------------------------------
+\begin{frame}{System Reliability: Series and Parallel}
+  \begin{itemize}
+    \item Consider \(n\) components with reliabilities \(R_1(t),\dots,R_n(t)\).
+    \item \textbf{Series system} (“weakest link”):
+      \[
+        \Rsys^{\text{series}}(t) = \prod_{i=1}^{n} R_i(t).
+      \]
+    \item \textbf{Parallel system} (system works if at least one works):
+      \[
+        \Rsys^{\text{parallel}}(t)
+        = 1 - \prod_{i=1}^{n}\bigl(1 - R_i(t)\bigr).
+      \]
+    \item These formulas generalize to more complex block diagrams and
+          fault trees.
+  \end{itemize}
+\end{frame}
+
+% AIRPLANE EXAMPLE -------------------------------------------------
+\begin{frame}{Example: Airplane with 2 Wings and 4 Engines}
+\scriptsize
+  \begin{itemize}
+    \item Simplified system model:
+      \begin{itemize}
+        \item 2 wings (both must function) \(\Rightarrow\) series.
+        \item 4 engines, at least 2 required \(\Rightarrow\) $k$-out-of-$n$ system.
+      \end{itemize}
+    \item If engine reliabilities are \(R_E(t)\) and independent:
+      \[
+        R_{\text{engines}}(t)
+        = \sum_{k=2}^{4}
+          \binom{4}{k} R_E(t)^k \left(1-R_E(t)\right)^{4-k}.
+      \]
+    \item Wing reliability \(R_W(t)\) (per wing), series:
+      \[
+        R_{\text{wings}}(t) = R_W(t)^2.
+      \]
+    \item Overall:
+      \[
+        \Rsys(t) = R_{\text{wings}}(t)\cdot R_{\text{engines}}(t).
+      \]
+    \item \textbf{Key point:} So far we treated “components” abstractly; now we ask:
+          \emph{what determines the reliability of a structural component?}
+  \end{itemize}
+\end{frame}
+
+% BRIDGE TO STRUCTURAL RELIABILITY --------------------------------
+\begin{frame}{From System Reliability to Structural Reliability}
+  \begin{itemize}
+    \item System reliability answers: \emph{How reliable is a system of components?}
+    \item But each component (wing, beam, pressure vessel) is a \emph{structure}
+          loaded by uncertain loads and having uncertain strength.
+    \item We need to connect:
+      \begin{itemize}
+        \item material properties (\(f_y, E, S_y\)),
+        \item geometry (\(b,h,L\)),
+        \item loads (forces, stresses, environmental effects),
+      \end{itemize}
+      to a probability of failure \(\Pf\).
+    \item This is the realm of \textbf{structural reliability}.
+  \end{itemize}
+\end{frame}
+
+% =================================================================
+\section{Structural Reliability Basics}
+
+% MOTIVATION -------------------------------------------------------
+\begin{frame}{Motivation: Limits of Deterministic Safety Factors}
+  \begin{itemize}
+    \item Classical design: use safety factors, e.g.
+      \[
+        \frac{R}{S} \ge \text{SF},
+      \]
+      where \(R\) is resistance, \(S\) is load.
+    \item Problems:
+      \begin{itemize}
+        \item Safety factors can be \emph{arbitrary} (1.5? 2.0? 1.2?).
+        \item No explicit probability of failure \(\Pf\).
+        \item Difficult to compare designs objectively or optimize cost vs.\ risk.
+      \end{itemize}
+    \item Structural reliability replaces this by:
+      \begin{itemize}
+        \item a probabilistic description of \(R\) and \(S\),
+        \item an explicit failure event,
+        \item and a quantitative \(\Pf\) or reliability index \(\beta\).
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% RANDOM VARIABLES & LIMIT STATE ----------------------------------
+\begin{frame}{Random Variables and Limit State Function}
+  \begin{itemize}
+    \item Model key quantities as random variables:
+      \begin{itemize}
+        \item Resistance \(R\): strength, yield stress, capacity.
+        \item Load \(S\): stresses from external loads, pressure, wind, etc.
+      \end{itemize}
+    \item Define a \textbf{limit state function}
+      \[
+        \gfun(\bm{X}) = R - S.
+      \]
+    \item Failure occurs when
+      \[
+        \gfun(\bm{X}) < 0.
+      \]
+    \item Probability of failure:
+      \[
+        \Pf = \Pr\left(\gfun(\bm{X}) < 0\right).
+      \]
+    \item For simple problems, we can derive \(\Pf\) analytically;
+          for complex ones, we use Monte Carlo or FORM/SORM.
+  \end{itemize}
+\end{frame}
+
+% RELIABILITY INDEX BETA -------------------------------------------
+\begin{frame}{Reliability Index \(\beta\)}
+  \begin{itemize}
+    \item Define the \textbf{reliability index} \(\beta\) via
+      \[
+        \beta = \Phi^{-1}(1-\Pf),
+      \]
+      where \(\Phi\) is the standard normal CDF.
+    \item Interpretation:
+      \begin{itemize}
+        \item \(\beta\) is the “distance” to the failure domain in standard
+              normal space (number of standard deviations).
+        \item Example values:
+          \[
+            \beta = 3.0 \Rightarrow \Pf \approx 1.35\times10^{-3}
+          \]
+          \[
+            \beta = 4.0 \Rightarrow \Pf \approx 3.17\times10^{-5}
+          \]
+          \[
+            \beta = 5.0 \Rightarrow \Pf \approx 2.87\times10^{-7}
+          \]
+      \end{itemize}
+    \item Higher \(\beta\) \(\Rightarrow\) lower failure probability
+          \(\Rightarrow\) higher structural reliability.
+  \end{itemize}
+\end{frame}
+
+% =================================================================
+\section{Example: Tension Member with Random Load and Strength}
+
+% ANALYTICAL EXAMPLE ----------------------------------------------
+\begin{frame}{Analytical Example: Normal \(R\) and \(S\)}
+\scriptsize
+  \begin{itemize}
+    \item From the notebook: tension member with
+      \[
+        R \sim \mathcal{N}(\mu_R, \sigma_R), \quad
+        S \sim \mathcal{N}(\mu_S, \sigma_S),
+      \]
+      independent.
+    \item Limit state: \(g = R - S\).
+    \item Then
+      \[
+        M = R - S \sim \mathcal{N}\left(\mu_R - \mu_S,
+           \sqrt{\sigma_R^2 + \sigma_S^2}\right).
+      \]
+    \item Failure event: \(M < 0\).
+      \[
+        \Pf = \Pr(M < 0) =
+          \Phi\!\left(-\frac{\mu_R - \mu_S}
+          {\sqrt{\sigma_R^2 + \sigma_S^2}}\right).
+      \]
+      \[
+        \beta = \frac{\mu_R - \mu_S}{\sqrt{\sigma_R^2 + \sigma_S^2}}.
+      \]
+  \end{itemize}
+\end{frame}
+
+% INTERPRETATION OF OVERLAP ---------------------------------------
+\begin{frame}{Interpreting the Overlap of \(R\) and \(S\)}
+  \begin{itemize}
+    \item Even if \(\mu_R > \mu_S\), there is a non-zero overlap of the two
+          distributions.
+    \item The overlap region corresponds to states where
+          \(S > R\) and the component fails.
+    \item Increasing reliability can be achieved by:
+      \begin{itemize}
+        \item increasing \(\mu_R\) (stronger material, larger cross-section),
+        \item reducing \(\sigma_R\) and \(\sigma_S\) (tighter controls),
+        \item reducing \(\mu_S\) (lower design loads or better load management).
+      \end{itemize}
+    \item In the notebook, this is illustrated with:
+      \begin{itemize}
+        \item PDFs of \(R\) and \(S\),
+        \item shaded failure region where \(S > R\).
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% MONTE CARLO ------------------------------------------------------
+\begin{frame}{Monte Carlo Approximation of \(\Pf\)}
+  \begin{itemize}
+    \item Analytical solution works here, but we use this example to
+          introduce \textbf{Monte Carlo}:
+      \begin{enumerate}
+        \item Sample \(R_i \sim \mathcal{N}(\mu_R, \sigma_R)\),
+              \(S_i \sim \mathcal{N}(\mu_S, \sigma_S)\).
+        \item Compute \(g_i = R_i - S_i\).
+        \item Count failures \(N_{\text{fail}}\) where \(g_i < 0\).
+        \item Estimate
+          \[
+            \widehat{\Pf} =
+              \frac{N_{\text{fail}}}{N_{\text{samples}}}.
+          \]
+      \end{enumerate}
+    \item In the notebook:
+      \begin{itemize}
+        \item \(N \approx 10^5\) samples,
+        \item comparison of analytical \(\Pf\) and Monte Carlo \(\widehat{\Pf}\),
+        \item scatter plot in \(R\)-\(S\) space and histogram of \(g\).
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% PARAMETER EFFECTS ------------------------------------------------
+\begin{frame}{Effect of Design Parameters \(\mu_R\) on \(\beta\) and \(\Pf\)}
+  \begin{itemize}
+    \item In the notebook: sensitivity of \(\beta\) and \(\Pf\) to the
+          mean resistance \(\mu_R\).
+    \item For each \(\mu_R\) in a range, compute:
+      \[
+        \beta(\mu_R) = 
+        \frac{\mu_R - \mu_S}{\sqrt{\sigma_R^2 + \sigma_S^2}},
+        \quad
+        \Pf(\mu_R) = \Phi\bigl(-\beta(\mu_R)\bigr).
+      \]
+    \item Plot:
+      \begin{itemize}
+        \item \(\beta\) vs.\ \(\mu_R\) (with target line \(\beta = 3\)),
+        \item \(\Pf\) vs.\ \(\mu_R\) in log scale (with target \(\Pf\) levels).
+      \end{itemize}
+    \item \textbf{Interpretation:}
+      \begin{itemize}
+        \item Small increases in \(\mu_R\) can significantly decrease \(\Pf\).
+        \item This gives a rational basis for choosing safety margins.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% =================================================================
+\section{Target Reliability Levels}
+
+% TARGET BETA TABLE ------------------------------------------------
+\begin{frame}{Target Reliability Levels}
+  \begin{itemize}
+    \item Structural reliability connects \(\Pf\)/\(\beta\) to
+          consequences of failure.
+  \end{itemize}
+  \vspace{0.3cm}
+  \begin{center}
+    \small
+    \begin{tabular}{@{}lccc@{}}
+      \toprule
+      Application & Target \(\beta\) & Target \(\Pf\) & Consequence \\
+      \midrule
+      Reusable spacecraft & 5.0--6.0 & \(10^{-7}\)–\(10^{-9}\) & catastrophic, loss of life \\
+      Aircraft structures & 4.0--5.0 & \(10^{-5}\)–\(10^{-7}\) & loss of life, high cost \\
+      Pressure vessels    & 3.5--4.5 & \(10^{-4}\)–\(10^{-6}\) & potential loss of life \\
+      Building structures & 3.0--3.5 & \(10^{-3}\)–\(10^{-4}\) & economic loss, repairable \\
+      Machine components  & 2.5--3.0 & \(10^{-2}\)–\(10^{-3}\) & local failure, replaceable \\
+      \bottomrule
+    \end{tabular}
+  \end{center}
+  \begin{itemize}
+    \item Choice of target \(\beta\) depends on:
+      \begin{itemize}
+        \item safety and societal risk acceptance,
+        \item economic and environmental consequences,
+        \item cost of increasing reliability.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% =================================================================
+\section{Example: Cantilever Beam (Exercise)}
+
+% CANTILEVER PROBLEM ----------------------------------------------
+\begin{frame}{Cantilever Beam Reliability Problem}
+  \begin{itemize}
+    \item From the notebook: Cantilever beam of length \(L = \SI{2}{m}\),
+          load \(P\) at free end.
+    \item Max bending stress:
+      \[
+        \sigma = \frac{M_{\max}}{W}
+               = \frac{P \cdot L}{W}.
+      \]
+    \item For rectangular cross-section:
+      \[
+        W = \frac{b h^2}{6}.
+      \]
+    \item Random variables:
+      \begin{itemize}
+        \item Yield strength \(S_y \sim \mathcal{N}(250\,\text{MPa}, 25\,\text{MPa})\),
+        \item Load \(P \sim \mathcal{N}(10\,\text{kN}, 2\,\text{kN})\),
+        \item Height \(h \sim \mathcal{N}(100\,\text{mm}, 2\,\text{mm})\),
+        \item Width \(b = 50\,\text{mm}\) (deterministic),
+        \item Length \(L = 2\,\text{m}\) (deterministic).
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% CANTILEVER LIMIT STATE ------------------------------------------
+\begin{frame}{Cantilever Beam: Limit State and Tasks}
+  \begin{itemize}
+    \item Limit state function:
+      \[
+        g = S_y - \sigma_{\text{applied}}.
+      \]
+    \item With
+      \[
+        \sigma_{\text{applied}} =
+          \frac{P L}{W} =
+          \frac{P L}{b h^2 / 6}
+          = \frac{6 P L}{b h^2}.
+      \]
+    \item Student tasks (from notebook):
+      \begin{enumerate}
+        \item Implement Monte Carlo simulation for \(g\).
+        \item Estimate \(\Pf\) and \(\beta\) (target \(\beta \ge 2.5\) for machine component).
+        \item Sensitivity analysis: Which variable dominates?
+        \item Propose design changes to achieve \(\beta \approx 3.0\).
+      \end{enumerate}
+  \end{itemize}
+\end{frame}
+
+% CANTILEVER HINTS -------------------------------------------------
+\begin{frame}{Cantilever Beam: Hints and Expected Behaviour}
+  \begin{itemize}
+    \item Hints from the notebook:
+      \begin{itemize}
+        \item Keep units consistent (Pa, N, m).
+        \item \(W\) is random since \(h\) is random.
+      \end{itemize}
+    \item Expected findings:
+      \begin{itemize}
+        \item Baseline \(\beta \approx 2.0\)–2.5.
+        \item Height \(h\) typically has strong influence (enters as \(h^2\)).
+        \item Increasing \(\mu_h\) by 10–20\% can raise \(\beta\) to \(\approx 3.0\).
+      \end{itemize}
+    \item This example links:
+      \begin{itemize}
+        \item structural mechanics (bending stress),
+        \item random variables (material, load, geometry),
+        \item and system-level reliability targets.
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+% =================================================================
+\section{Wrap-Up and Next Steps}
+
+% DISCUSSION QUESTIONS --------------------------------------------
+\begin{frame}{Discussion Questions}
+  \begin{itemize}
+    \item Why is the coefficient of variation (CoV) critical for reliability?
+    \item What are the limitations of pure safety-factor design?
+    \item In the cantilever example: which random variable drives the failure most?
+    \item How many Monte Carlo samples do we need for:
+      \begin{itemize}
+        \item \(\Pf \approx 10^{-2}\)?
+        \item \(\Pf \approx 10^{-6}\)?
+      \end{itemize}
+    \item How would you add time-dependent effects (fatigue, corrosion) to
+          the limit state?
+  \end{itemize}
+\end{frame}
+
+% SUMMARY ----------------------------------------------------------
+\begin{frame}{Summary}
+  \begin{itemize}
+    \item Started from component and system reliability
+          (\(R(t)\), Weibull, series/parallel, airplane example).
+    \item Introduced structural reliability:
+      \begin{itemize}
+        \item random resistance and load,
+        \item limit state function \(g\),
+        \item failure probability \(\Pf\) and index \(\beta\).
+      \end{itemize}
+    \item Worked through notebook examples:
+      \begin{itemize}
+        \item normal \(R\)–\(S\) tension member,
+        \item Monte Carlo approximation,
+        \item sensitivity of \(\beta\) to design parameters,
+        \item cantilever beam exercise.
+      \end{itemize}
+    \item Next step: connect structural reliability to
+          \emph{system reliability of complex structures}
+          (e.g.\ full aircraft, turbines, networks).
+  \end{itemize}
+\end{frame}
+
+% FURTHER READING --------------------------------------------------
+\begin{frame}{Further Reading}
+  \begin{itemize}
+    \item Melchers, R.\,E., Beck, A.\,T.:
+      \emph{Structural Reliability Analysis and Prediction}, 3rd ed.
+    \item Haldar, A., Mahadevan, S.:
+      \emph{Probability, Reliability and Statistical Methods in Engineering Design}.
+    \item Nowak, A.\,S., Collins, K.\,R.:
+      \emph{Reliability of Structures}, 2nd ed.
+  \end{itemize}
+\end{frame}
+
+\end{document}
