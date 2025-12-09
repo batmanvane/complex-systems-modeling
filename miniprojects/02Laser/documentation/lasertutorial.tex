@@ -1,0 +1,346 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+
+\title{A Tutorial Introduction to Scaling, Bifurcation Analysis and Chaos:\\
+Laser Rate Equations and Beyond}
+\author{Prof. Robert Flassig}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\section{Introduction}
+
+Many nonlinear dynamical systems in physics contain parameters with physical
+units.  Before analyzing equilibria, bifurcations, or stability, it is best
+practice to \emph{nondimensionalize} the equations: convert them to a form
+involving only dimensionless variables and dimensionless parameters.  
+This simplifies the mathematics, exposes universal behavior, and reduces the
+number of relevant parameters.
+
+In this tutorial we will:
+
+\begin{enumerate}
+    \item review best practices for nondimensionalization with a simple example,
+    \item apply these ideas to the semiclassical laser rate equations,
+    \item perform a fixed point and stability analysis,
+    \item sketch the bifurcation structure of the laser threshold,
+    \item briefly discuss how one might extend the system toward chaotic behavior.
+\end{enumerate}
+
+Note: Equations and plots can be found here: 
+
+\vspace{1em}
+\section{A Brief Reminder: How to Nondimensionalize a System}
+
+Consider a system written in dimensional variables,
+\[
+\dot x = f(x,t; \text{parameters}).
+\]
+To nondimensionalize, we choose characteristic scales:
+\[
+x = X_0 \,\tilde x, \qquad t = T_0 \,\tilde t,
+\]
+where $X_0, T_0$ have the same units as $x$ and $t$ and are constructed from the
+physical parameters.  After substituting and dividing out physical units, we
+obtain an equation of the form
+\[
+\tilde x' = F(\tilde x; \text{dimensionless parameters}).
+\]
+
+\subsection{Simple Example}
+
+Take the equation
+\[
+\dot x = ax - bx^2, \qquad a,b>0.
+\]
+The natural scale for $x$ is the steady state $x^\ast = a/b$, so write
+\[
+x = \frac{a}{b}\,\tilde x.
+\]
+The natural time scale is $1/a$, so write $t = \tilde t / a$.  
+Substituting yields
+\[
+\tilde x' = \tilde x - \tilde x^2.
+\]
+All parameters have disappeared: the model is now universal.
+This is considered \emph{best practice}: identify natural physical scales coming
+from steady states, decay rates, or characteristic times, and scale variables
+accordingly.
+
+\vspace{1em}
+\section{Laser Rate Equations}
+
+We now consider the semiclassical laser equations
+\begin{align}
+\dot n &= G\, n\, N - k n , \label{eq:n}\\[2mm]
+\dot N &= - G\, n\, N - f N + p , \label{eq:N}
+\end{align}
+where:
+\[
+n(t)=\text{photon number},\qquad
+N(t)=\text{excited atoms},
+\]
+\[
+G > 0 \text{ gain}, \quad
+k>0 \text{ cavity loss}, \quad
+f >0  \text{ spontaneous decay}, \quad
+p\in\mathbb{R} \text{ pump}.
+\]
+
+\section{Nondimensionalization}
+
+A natural time scale is the photon decay time $1/k$, so we define
+\[
+\tau = k t.
+\]
+For $n$ and $N$, we choose scales suggested by the nonlinear coupling $G n N$:
+\[
+x = \frac{G}{k}n, \qquad y = \frac{G}{f}N.
+\]
+Finally define dimensionless parameters
+\[
+\alpha = \frac{f}{k}, \qquad
+\beta  = \frac{G}{kf}p.
+\]
+
+Using derivatives with respect to $\tau$ (denoted by $'$), the system becomes
+\begin{align}
+x' &= x (y - 1), \label{eq:x}\\
+y' &= - \alpha y - \alpha x y + \alpha \beta. \label{eq:y}
+\end{align}
+This is a two-dimensional nonlinear system with only two parameters
+$\alpha>0$ and $\beta\in\mathbb{R}$.
+
+\vspace{1em}
+\section{Fixed Points and Their Classification}
+
+To find equilibria, solve $x'=0$ and $y'=0$.
+
+\subsection{(a) Trivial equilibrium}
+
+If $x=0$, then $y' = -\alpha y + \alpha \beta = 0$ gives
+\[
+E_0 = (0, \beta).
+\]
+This corresponds to zero photons in the cavity.
+
+\subsection{(b) Lasing equilibrium}
+
+If $y=1$ (from $x'=0$), substitute into $y'=0$:
+\[
+0 = -\alpha(1+x) + \alpha \beta
+    \quad\Rightarrow\quad
+x = \beta - 1.
+\]
+Thus, a second equilibrium exists:
+\[
+E_L = (\beta-1,\,1), \qquad \text{only if } \beta > 1.
+\]
+This is the operating point of a laser above threshold.
+
+\subsection{Jacobian and Stability}
+
+The Jacobian is
+\[
+J(x,y)=
+\begin{pmatrix}
+y-1 & x \\
+-\alpha y & -\alpha(1+x)
+\end{pmatrix}.
+\]
+
+\paragraph{Stability of $E_0=(0,\beta)$.}
+\[
+J(E_0)=
+\begin{pmatrix}
+\beta-1 & 0 \\
+-\alpha\beta & -\alpha
+\end{pmatrix}.
+\]
+Eigenvalues:
+\[
+\lambda_1=\beta-1,\qquad \lambda_2=-\alpha.
+\]
+Thus
+\[
+\begin{cases}
+\beta<1 &: \text{$E_0$ is a stable node},\\
+\beta=1 &: \text{$E_0$ is nonhyperbolic (bifurcation point)},\\
+\beta>1 &: \text{$E_0$ becomes a saddle}.
+\end{cases}
+\]
+
+\paragraph{Stability of $E_L = (\beta-1,1)$.}
+
+\[
+J(E_L)=
+\begin{pmatrix}
+0 & \beta-1\\
+-\alpha & -\alpha\beta
+\end{pmatrix}.
+\]
+
+Eigenvalues satisfy
+\[
+\lambda^2 + \alpha\beta\,\lambda + \alpha(\beta-1)=0.
+\]
+The real part is always negative for $\beta>1$, so $E_L$ is
+\emph{always stable} (node or spiral).
+
+The discriminant
+\[
+\Delta=(\alpha\beta)^2-4\alpha(\beta-1)
+\]
+determines node vs.\ spiral.
+
+\vspace{1em}
+\section{Phase Portraits and Qualitative Dynamics}
+
+The system exhibits qualitatively different behavior depending on $\beta$:
+
+\begin{enumerate}
+\item \textbf{Subthreshold ($\beta<1$):} only $E_0$ exists and is stable.
+Photon number decays to zero.
+
+\item \textbf{Threshold ($\beta=1$):} a \emph{transcritical bifurcation}.  
+The laser turns on at this point.
+
+\item \textbf{Above threshold ($\beta>1$):} $E_0$ becomes a saddle and $E_L$ becomes stable.  
+Approach to $E_L$ may be monotone (node) or oscillatory (spiral).
+\end{enumerate}
+
+\vspace{1em}
+\section{Stability Diagram and Bifurcation}
+
+The curve separating nodes from spirals is given by $\Delta=0$:
+\[
+\alpha = \frac{4(\beta-1)}{\beta^2}.
+\]
+Below this curve: stable spiral (damped laser oscillations).  
+Above this curve: stable node (non-oscillatory relaxation).
+
+The line $\beta=1$ is the \emph{laser threshold bifurcation}, a classical
+\textbf{transcritical bifurcation}.
+
+\vspace{1em}
+\section{Can the Laser System Become Chaotic?}
+
+The nondimensional laser rate equations
+\[
+x' = x (y - 1), \qquad 
+y' = - \alpha y - \alpha x y + \alpha \beta,
+\]
+form a two–dimensional autonomous dynamical system.  
+By the Poincaré–Bendixson theorem, such systems cannot exhibit deterministic
+chaos: their long–term behavior consists only of fixed points or limit cycles.
+Thus, \emph{the simplest semiclassical laser model cannot become chaotic}.
+
+Nevertheless, real lasers \emph{do} display chaotic intensity fluctuations, and
+several extensions of the basic model lead naturally to chaos.  The most
+famous example is the \emph{Haken–Lorenz laser model}, which has exactly the
+same mathematical structure as the classical Lorenz equations. 
+
+\subsection{A Concrete Example: The Haken--Lorenz Equations}
+
+To move from the 2--variable model to a chaotic one, we include a third
+dynamical variable representing the \emph{polarization} of the atomic medium.
+Typical laser physics leads to the three coupled equations
+\begin{align}
+\dot E &= \kappa (P - E), \label{HL1}\\[2mm]
+\dot P &= \gamma (E N - P), \label{HL2}\\[2mm]
+\dot N &= \rho (\beta - N - E P), \label{HL3}
+\end{align}
+where:
+
+\[
+E = \text{electric field amplitude}, \quad 
+P = \text{medium polarization},\quad 
+N = \text{population inversion}.
+\]
+
+The parameters $\kappa, \gamma, \rho$ measure the decay rates of the field,
+polarization, and inversion, respectively.  After suitable nondimensionalization
+(dropping tildes), the system can be cast into the form
+\begin{align}
+\dot X &= \sigma (Y - X), \\
+\dot Y &= r X - Y - X Z, \\
+\dot Z &= X Y - b Z,
+\end{align}
+which is exactly the classical Lorenz system, with the identifications:
+\[
+X \leftrightarrow E, \quad 
+Y \leftrightarrow P, \quad 
+Z \leftrightarrow N.
+\]
+For appropriate parameter ranges 
+(e.g.\ $\sigma = 10$, $r = 28$, $b = 8/3$),
+the system exhibits the well-known butterfly attractor.
+
+Thus a laser with field--polarization coupling can display the full range of
+Lorenz-type behavior: fixed points, limit cycles, period doubling,
+intermittency, and fully developed chaos.
+
+\subsection{Other Mechanisms for Chaos in Lasers}
+
+Beyond the Lorenz structure, there are several other standard routes to chaos
+in laser physics:
+
+\paragraph{1. Delayed optical feedback (Ikeda-type laser).}
+The output of the laser is partially reflected back after a time delay $\tau$.
+This produces a delay-differential equation,
+\[
+\dot x(t) = F\big(x(t), x(t-\tau)\big),
+\]
+which is infinite-dimensional and easily becomes chaotic.  
+This is a common model for chaotic diode lasers and mode-locked lasers.
+
+\paragraph{2. External periodic modulation.}
+Modulating pump strength or cavity loss,
+\[
+\dot x = x(y-1), \qquad \dot y = -\alpha y - \alpha x y + \alpha (\beta + A\cos\omega t),
+\]
+creates a periodically forced nonlinear oscillator.  
+Poincaré sections reduce this to a 2D map, where period doubling cascades and
+chaos readily occur.
+
+\paragraph{3. Injection locking (two-laser coupling).}
+With injected field $E_\text{inj}$, the laser evolution includes an additional
+phase equation.  The resulting 3D system can undergo:
+\begin{itemize}
+\item quasiperiodicity,
+\item torus breakdown,
+\item Shilnikov chaos.
+\end{itemize}
+
+\paragraph{4. Multimode lasers.}
+Allowing multiple longitudinal or transverse modes introduces additional field
+amplitudes:
+\[
+E_1, E_2, \dots
+\]
+so even two-mode lasers lead to 4 or more state variables and chaotic dynamics.
+
+\paragraph{5. Reduction to discrete maps.}
+The laser system may be sampled stroboscopically (Poincaré map) or reduced to a
+1D or 2D discrete map under suitable slow–fast assumptions.  
+Typical examples include logistic-type maps,
+\[
+x_{n+1} = r x_n (1 - x_n),
+\]
+arising in periodically pumped lasers.
+
+\subsection{Summary Chaotic Laser}
+
+While the basic two-dimensional rate equations cannot display chaos, even
+minimal physical extensions---such as including polarization, phase, time-delay,
+periodic forcing, or multimode structure---produce systems that are
+mathematically equivalent to classical chaotic models, most famously the
+Lorenz system.
+
+
+\end{document}
