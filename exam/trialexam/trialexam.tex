@@ -1,0 +1,169 @@
+\documentclass[11pt, a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{tikz}
+
+% Page layout configuration
+\geometry{left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\textbf{Course:} Complex Systems Modeling}
+\rhead{\textbf{Trial Exam}}
+\lfoot{THB - Department of Mechanical Engineering}
+\rfoot{Page \thepage}
+
+\title{\textbf{Trial Exam: Complex Systems Modeling}}
+\author{Prof. Robert Flassig}
+\date{Time limit: 90 Minutes}
+
+\begin{document}
+
+\maketitle
+
+\noindent \textbf{Instructions:}
+\begin{itemize}
+    \item Answer all questions.
+    \item You may use a non-programmable calculator.
+    \item Show all intermediate steps for mathematical derivations.
+    \item Illustrations should be clearly labeled.
+\end{itemize}
+
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline
+\textbf{Problem} & \textbf{Topic} & \textbf{Points} \\
+\hline
+1 & Fundamentals of Modeling & 15 \\
+\hline
+2 & Scaling and Nondimensionalization & 15 \\
+\hline
+3 & Dynamical Systems \& Stability & 20 \\
+\hline
+4 & Bifurcation Analysis & 20 \\
+\hline
+5 & Phase Space Reconstruction & 20 \\
+\hline
+6 & Chaos Theory & 10 \\
+\hline
+\textbf{Total} & & \textbf{100} \\
+\hline
+\textit{Bonus} & \textit{Poincaré-Bendixson Theorem} & \textit{(+5)} \\
+\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.5cm}
+
+% ----------------------------------------------------------------------
+\section*{Problem 1: Fundamentals of Modeling (15 Points)}
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{(5 pts)} The statistician George Box stated, "All models are wrong, but some are useful." Explain this statement in the context of engineering simulation. What differentiates a "useful" model from a "correct" one?
+
+    \item \textbf{(5 pts)} Define the principle of \textit{Occam's Razor} and explain how it applies to selecting between two competing models that describe the same dataset with equal accuracy.
+
+    \item \textbf{(5 pts)} In the context of model quality, define the terms \textbf{Validity} and \textbf{Robustness}. How do they differ?
+\end{enumerate}
+
+% ----------------------------------------------------------------------
+\section*{Problem 2: Scaling and Nondimensionalization (15 Points)}
+
+Consider the differential equation for a chemical reaction with a threshold effect:
+\begin{equation}
+    \frac{dx}{dt} = -r x \left(1 - \frac{x}{K}\right)
+\end{equation}
+where $x$ is the state variable, $t$ is time, and $r, K > 0$ are physical parameters.
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{(5 pts)} Propose a substitution $x = \alpha u$ and $t = \beta \tau$ to nondimensionalize the equation.
+    
+    \item \textbf{(10 pts)} Determine the values of $\alpha$ and $\beta$ such that the parameters $r$ and $K$ are eliminated from the equation. Write down the final canonical dimensionless form of the ODE.
+\end{enumerate}
+
+% ----------------------------------------------------------------------
+\section*{Problem 3: Linear Dynamical Systems (20 Points)}
+
+Consider the following two-dimensional linear dynamical system:
+\begin{equation}
+    \frac{d}{dt} \begin{pmatrix} x \\ y \end{pmatrix} = \mathbf{A} \begin{pmatrix} x \\ y \end{pmatrix}, \quad \text{with} \quad \mathbf{A} = \begin{pmatrix} 0 & 1 \\ -4 & -2 \end{pmatrix}
+\end{equation}
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{(5 pts)} Calculate the trace $\text{Tr}(\mathbf{A})$ and the determinant $\det(\mathbf{A})$ of the coefficient matrix.
+    
+    \item \textbf{(10 pts)} Determine the eigenvalues $\lambda_{1,2}$ of the matrix $\mathbf{A}$. Based on the eigenvalues, classify the stability of the origin $(0,0)$ (e.g., stable spiral, saddle, unstable node).
+    
+    \item \textbf{(5 pts)} Physically, does this matrix represent an underdamped, overdamped, or critically damped mass-spring-damper system? Justify your answer.
+\end{enumerate}
+
+% ----------------------------------------------------------------------
+\section*{Problem 4: Bifurcation Analysis (20 Points)}
+
+Consider the nonlinear system dependent on parameter $\mu$:
+\begin{equation}
+    \dot{x} = \mu x - x^3
+\end{equation}
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{(5 pts)} Find all fixed points $x^*$ as a function of $\mu$ for both $\mu < 0$ and $\mu > 0$.
+
+    \item \textbf{(5 pts)} Analyze the linear stability of the fixed point at the origin ($x^*=0$) for $\mu < 0$ and $\mu > 0$.
+
+    \item \textbf{(5 pts)} Identify the type of bifurcation at $\mu = 0$ (Saddle-Node, Transcritical, or Pitchfork) and whether it is supercritical or subcritical.
+
+    \item \textbf{(5 pts)} Sketch the bifurcation diagram ($x^*$ vs. $\mu$) below. Use solid lines for stable branches and dashed lines for unstable branches.
+\end{enumerate}
+
+% ----------------------------------------------------------------------
+\section*{Problem 5: Phase Space Reconstruction (20 Points)}
+
+Consider the nonlinear oscillator described by the second-order equation:
+\begin{equation}
+    \frac{d^2x}{dt^2} - x\frac{dx}{dt} + x^2 = 0
+\end{equation}
+By defining $y = \frac{dx}{dt}$, this system can be converted into the first-order system:
+\begin{align*}
+    \dot{x} &= y \\
+    \dot{y} &= xy - x^2
+\end{align*}
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{(5 pts)} Determine the equations for the $\dot{x}$-nullclines and the $\dot{y}$-nullclines.
+    
+    \item \textbf{(5 pts)} Find all fixed points (equilibrium points) of the system by finding the intersection(s) of the nullclines.
+    
+    \item \textbf{(10 pts)} Sketch the phase space in the $(x, y)$ plane. 
+    \begin{itemize}
+        \item Draw and label the nullclines.
+        \item Mark the fixed point(s).
+        \item In the regions created by the nullclines, draw arrows indicating the qualitative direction of the flow (e.g., North-East, South-West, etc.).
+    \end{itemize}
+    \begin{center}
+        \begin{tikzpicture}
+            \draw[->] (-3,0) -- (3,0) node[right] {$x$};
+            \draw[->] (0,-3) -- (0,3) node[above] {$y$};
+            \draw[step=1cm,gray,very thin] (-3,-3) grid (3,3);
+        \end{tikzpicture}
+    \end{center}
+\end{enumerate}
+
+% ----------------------------------------------------------------------
+\section*{Problem 6: Chaos Theory (10 Points)}
+
+\begin{enumerate}[label=\alph*)]
+    \item \textbf{(5 pts)} Define \textbf{Chaos} in deterministic dynamical systems. Explain the concept of "sensitivity to initial conditions".
+
+    \item \textbf{(5 pts)} What is the \textbf{Lyapunov Exponent} ($\lambda$)? If a system has a positive Lyapunov exponent ($\lambda > 0$), what does this imply about its long-term predictability?.
+\end{enumerate}
+
+% ----------------------------------------------------------------------
+\section*{Bonus Question: Continuous-Time Chaos (+5 Points)}
+
+\textbf{(Optional)} The Lorenz system is a continuous-time system with 3 state variables ($x, y, z$). Can chaos exist in a continuous-time system with only 2 state variables? Explain why or why not, referencing the \textbf{Poincaré-Bendixson theorem}.
+
+\end{document}
