@@ -1,0 +1,310 @@
+\documentclass{beamer}
+\usetheme{Berlin}
+
+\title{Systems with a Small Number of
+Variables}
+\subtitle{Course: Complex Systems Modeling}
+\author{Robert Flassig}
+\institute{Brandenburg University of Applied Sciences}
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+\end{frame}
+\section{Bifurcation Theory}
+
+\begin{frame}
+\frametitle{What is a Bifurcation?}
+
+\begin{itemize}
+    \item A \textbf{bifurcation} occurs when a small smooth change in a parameter
+    causes a sudden qualitative change in the long-term behavior of a system.
+    \item For a 1D autonomous system:
+    \[
+    \dot x = f(x,\mu)
+    \]
+    a bifurcation occurs when both:
+    \begin{itemize}
+        \item An equilibrium \(f(x^\ast,\mu)=0\) is created/destroyed or changes stability.
+        \item The \textbf{linearization} \(f_x(x^\ast,\mu)\) becomes zero.
+    \end{itemize}
+    \item Bifurcations are the simplest building blocks of nonlinear phenomena
+    (cf.\ Strogatz, \emph{Nonlinear Dynamics and Chaos}, 2nd ed., 2018, Ch.\,3).
+\end{itemize}
+
+\end{frame}
+
+% ------------------------------------------
+\begin{frame}
+\frametitle{Why Bifurcations Cannot Occur in Linear Systems}
+
+Linear system:
+\[
+\dot x = A x
+\]
+
+\begin{itemize}
+    \item Eigenvalues of \(A\) determine stability.
+    \item Changing parameters changes eigenvalues \emph{continuously}.
+    \item But:
+    \[
+    \textbf{origin is always the only equilibrium.}
+    \]
+    \item No new fixed points can appear or disappear.
+\end{itemize}
+
+\textbf{Conclusion:}  
+Bifurcations require \textbf{nonlinear} systems.
+
+\end{frame}
+
+% ============================================================
+% Saddle-Node Bifurcation
+% ============================================================
+
+\subsection{Saddle-Node Bifurcation}
+
+\begin{frame}
+\frametitle{Example: Saddle--Node Bifurcation}
+
+Canonical model:
+\[
+\dot x = \mu - x^2
+\]
+
+Equilibria:
+\[
+x^\ast = \pm \sqrt{\mu} \qquad (\mu>0)
+\]
+
+Stability:
+\[
+f_x = -2x^\ast \;\Rightarrow\;
+\begin{cases}
+x^\ast = +\sqrt{\mu}: \; f_x < 0 \Rightarrow \text{stable} \\
+x^\ast = -\sqrt{\mu}: \; f_x > 0 \Rightarrow \text{unstable}
+\end{cases}
+\]
+
+\textbf{At \(\mu=0\)}: Both equilibria collide and annihilate.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Saddle--Node Phase Portraits}
+
+\begin{center}
+\fbox{\parbox{0.6\textwidth}{\centering \vspace{0.5cm} \textit{Saddle--node bifurcation diagram} \vspace{0.5cm}}}
+\end{center}
+
+\textbf{Qualitative change:}
+\begin{itemize}
+    \item \(\mu < 0\): No equilibria.
+    \item \(\mu > 0\): Two equilibria (one stable, one unstable).
+\end{itemize}
+
+\end{frame}
+
+% ============================================================
+% Transcritical Bifurcation
+% ============================================================
+
+\subsection{Transcritical Bifurcation}
+
+\begin{frame}
+\frametitle{Example: Transcritical Bifurcation}
+
+Canonical form:
+\[
+\dot x = \mu x - x^2.
+\]
+
+Equilibria:
+\[
+x_1^\ast = 0, \qquad x_2^\ast = \mu.
+\]
+
+Stability:
+\[
+f_x =
+\begin{cases}
+\mu & \text{at } x^\ast = 0 \\
+-\mu & \text{at } x^\ast = \mu
+\end{cases}
+\]
+
+\textbf{Interpretation:}  
+The two fixed points exchange their stability at \(\mu = 0\).
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Transcritical Bifurcation Diagram}
+
+\begin{center}
+\fbox{\parbox{0.6\textwidth}{\centering \vspace{0.5cm} \textit{Transcritical bifurcation diagram} \vspace{0.5cm}}}
+\end{center}
+
+\textbf{Typical scenario:}
+\begin{itemize}
+    \item Two branches cross.
+    \item Each branch is stable on one side and unstable on the other.
+\end{itemize}
+
+\end{frame}
+
+% ============================================================
+% Pitchfork
+% ============================================================
+
+\subsection{Pitchfork Bifurcation}
+
+\begin{frame}
+\frametitle{Supercritical Pitchfork Bifurcation}
+
+Canonical form:
+\[
+\dot x = \mu x - x^3.
+\]
+
+Equilibria:
+\[
+x^\ast = 0,
+\qquad
+x^\ast = \pm\sqrt{\mu} \; (\mu > 0).
+\]
+
+Stability:
+\[
+f_x = \mu - 3x^2.
+\]
+
+\begin{itemize}
+    \item At \(x=0\):
+    \(\mu<0\) stable, \(\mu>0\) unstable.
+    \item New stable equilibria appear when \(\mu>0\).
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Pitchfork Bifurcation Diagram}
+
+\begin{center}
+\fbox{\parbox{0.6\textwidth}{\centering \vspace{0.5cm} \textit{Pitchfork bifurcation diagram} \vspace{0.5cm}}}
+\end{center}
+
+\textbf{Symmetry breaking:}  
+System transitions from one stable equilibrium to two stable equilibria.
+
+\end{frame}
+
+% ============================================================
+% Linear Stability Criterion
+% ============================================================
+
+\subsection{Linear Stability at Bifurcation Points}
+
+\begin{frame}
+\frametitle{Failure of Linear Stability at Bifurcations}
+
+At an equilibrium \(f(x^\ast,\mu)=0\), consider the linearization:
+\[
+\dot \eta = f_x(x^\ast,\mu)\eta.
+\]
+
+\textbf{Bifurcation condition:}
+\[
+f_x(x^\ast,\mu_c) = 0.
+\]
+
+Implication:
+\begin{itemize}
+    \item Linearization predicts \(\dot \eta = 0\) $\to$ \textbf{inconclusive}.
+    \item Need higher-order terms $\to$ must use \textbf{nonlinear analysis}.
+    \item Standard tool: \textbf{Taylor expand} near equilibrium:
+    \[
+    f(x^\ast+\eta,\mu) =
+    f_x \eta + \frac{1}{2}f_{xx}\eta^2 + \dots
+    \]
+\end{itemize}
+
+\end{frame}
+
+% ============================================================
+% Classification
+% ============================================================
+
+\begin{frame}
+\frametitle{Classification of Codimension-1 Bifurcations}
+
+Only three generic 1D continuous-time bifurcations:
+
+\begin{enumerate}
+    \item \textbf{Saddle--Node}: Two equilibria collide and annihilate.
+    \item \textbf{Transcritical}: Two branches exchange stability.
+    \item \textbf{Pitchfork}:
+    \begin{itemize}
+        \item Supercritical: one $\to$ three equilibria.
+        \item Subcritical: opposite direction.
+    \end{itemize}
+\end{enumerate}
+
+All others are non-generic or higher-dimensional.
+
+\end{frame}
+
+% ============================================================
+% Exercises
+% ============================================================
+
+\subsection{Exercises}
+
+\begin{frame}
+\frametitle{Exercise: Identify Bifurcation Type}
+
+Classify the bifurcation for each system:
+
+\begin{enumerate}
+    \item \( \dot x = \mu + x^2 \)
+    \item \( \dot x = \mu x - x^2 \)
+    \item \( \dot x = \mu x + x^3 \)
+\end{enumerate}
+
+\medskip
+\textbf{Tasks:}
+\begin{itemize}
+    \item Find equilibria as function of \(\mu\).
+    \item Determine stability.
+    \item Identify the bifurcation type.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Solutions}
+
+\begin{enumerate}
+    \item \( \dot x = \mu + x^2 \)\\
+    $\to$ Saddle--Node (at \(\mu=0\)).
+
+    \item \( \dot x = \mu x - x^2 \)\\
+    $\to$ Transcritical (exchange of stability at \(\mu=0\)).
+
+    \item \( \dot x = \mu x + x^3 \)\\
+    $\to$ Subcritical Pitchfork (unstable branches).
+\end{enumerate}
+
+\textbf{Reference:} S.H. Strogatz, \emph{Nonlinear Dynamics and Chaos}, 2nd ed., Westview Press, 2018, Chapter 3.
+
+\end{frame}
+
+
+
+\end{document}

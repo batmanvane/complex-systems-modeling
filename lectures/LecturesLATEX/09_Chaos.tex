@@ -1,0 +1,214 @@
+\documentclass{beamer}
+
+% Theme selection
+\usetheme{Berlin}
+
+% Essential packages
+\usepackage{graphicx} % For images
+\usepackage{amsmath}  % For advanced math formatting
+
+% Presentation Metadata
+\title{Introduction to Chaos}
+\subtitle{Course: Complex Systems Modeling}
+\author{Robert Flassig}
+\institute{Brandenburg University of Applied Sciences}
+\date{\today}
+
+\begin{document}
+
+% ---------------------------------------------------------
+% Title and Outline
+% ---------------------------------------------------------
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}
+    \frametitle{Outline}
+    \tableofcontents
+\end{frame}
+
+% ---------------------------------------------------------
+% Section 1: Introduction to Chaos
+% ---------------------------------------------------------
+\section{What is Chaos?}
+
+\begin{frame}
+    \frametitle{From Bifurcation to Chaos}
+    \begin{itemize}
+        \item \textbf{Recap:} We explored bifurcations (Saddle-Node, Pitchfork) where parameter changes alter stability.
+        \item \textbf{Question:} What happens if we increase the parameter beyond these points?
+        \item \textbf{Result:} In nonlinear systems, this often leads to \textbf{Chaos}.
+        \item \textbf{Definition of Chaos:}
+        \begin{itemize}
+            \item Long-term behavior that never settles into a static or periodic trajectory.
+            \item Deterministic (no random inputs), yet appears random.
+            \item Exhibits sensitive dependence on initial conditions.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+% Section 2: Discrete-Time Models
+% ---------------------------------------------------------
+\section{Chaos in Discrete-Time Models}
+
+\begin{frame}
+    \frametitle{Discrete vs. Continuous}
+    \begin{itemize}
+        \item \textbf{Discrete-Time ($x_t = F(x_{t-1})$):}
+        \begin{itemize}
+            \item Chaos is possible even in \textbf{1D} systems.
+            \item Example: Logistic Map.
+        \end{itemize}
+        \item \textbf{Continuous-Time ($\dot{x} = f(x)$):}
+        \begin{itemize}
+            \item Chaos requires at least \textbf{3 dimensions} (Poincaré-Bendixson theorem).
+            \item Example: Lorenz Equations.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{The Logistic Map}
+    A canonical model of population dynamics:
+    \[
+    x_t = r x_{t-1} (1 - x_{t-1})
+    \]
+    \begin{itemize}
+        \item $x_t \in [0,1]$: Population scale.
+        \item $r$: Growth rate parameter ($0 < r < 4$).
+    \end{itemize}
+    
+    \vspace{0.5cm}
+    \textbf{Behavior as $r$ increases:}
+    \begin{enumerate}
+        \item Stable Equilibrium (Fixed Point).
+        \item Period-Doubling Bifurcation (Oscillation between 2 states).
+        \item Period-Doubling Cascade ($2 \to 4 \to 8 \dots$).
+        \item \textbf{Chaos} (Aperiodic behavior).
+    \end{enumerate}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Bifurcation Diagram}
+    \begin{center}
+        \fbox{\parbox{0.6\textwidth}{\centering \vspace{0.5cm} \textit{Bifurcation diagram of the logistic map} \vspace{0.5cm}}}
+    \end{center}
+    
+    \begin{itemize}
+        \item \textbf{X-axis:} Parameter $r$.
+        \item \textbf{Y-axis:} Asymptotic states of $x$.
+        \item Shows the transition from order (single lines) to chaos (dense regions).
+    \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+% Section 3: Characteristics
+% ---------------------------------------------------------
+\section{Characteristics of Chaos}
+
+\begin{frame}
+    \frametitle{1. Sensitivity to Initial Conditions}
+    \textbf{The "Butterfly Effect"}
+    \begin{itemize}
+        \item Two trajectories starting arbitrarily close together diverge exponentially fast.
+        \item Divergence formula:
+        \[
+        |\delta(t)| \approx |\delta_0| e^{\lambda t}
+        \]
+        \item Implication: Long-term prediction is impossible, despite the system being deterministic.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{2. The Lyapunov Exponent}
+    \textbf{How do we measure chaos mathematically?}
+    
+    \begin{itemize}
+        \item The \textbf{Lyapunov Exponent ($\lambda$)} measures the rate of separation.
+        \item Calculated as the time average of the log-derivative:
+        \[
+        \lambda = \lim_{t \to \infty} \frac{1}{t} \sum_{i=0}^{t-1} \ln \left| \frac{dF}{dx}(x_i) \right|
+        \]
+        \item \textbf{Criterion:} $\lambda > 0$ implies Chaos.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+    \frametitle{3. Stretching and Folding}
+    \textbf{The geometric mechanism of chaos:}
+    
+    \begin{itemize}
+        \item \textbf{Stretching:} Exponential divergence of nearby points ($\lambda > 0$).
+        \item \textbf{Folding:} Confinement within a finite phase space requires trajectories to fold back.
+        \item This process creates \textbf{fractal} structures (Strange Attractors).
+    \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+% Section 4: Continuous Systems
+% ---------------------------------------------------------
+\section{Chaos in Continuous Systems}
+
+\begin{frame}
+    \frametitle{The Lorenz Equations}
+    Discovered by Edward Lorenz (1963) in atmospheric modeling.
+    
+    \[
+    \begin{aligned}
+    \dot{x} &= s(y - x) \\
+    \dot{y} &= rx - y - xz \\
+    \dot{z} &= xy - bz
+    \end{aligned}
+    \]
+    
+    \textbf{Standard Chaotic Parameters:}
+    \[
+    s=10, \quad r=28, \quad b=8/3
+    \]
+\end{frame}
+
+\begin{frame}
+    \frametitle{The Lorenz Attractor}
+    \begin{center}
+        \fbox{\parbox{0.6\textwidth}{\centering \vspace{0.5cm} \textit{Lorenz attractor ($s{=}10$, $r{=}28$, $b{=}8/3$)} \vspace{0.5cm}}}
+    \end{center}
+    
+    \begin{itemize}
+        \item A \textbf{Strange Attractor}.
+        \item \textbf{Properties:}
+        \begin{itemize}
+            \item Trajectories loop infinitely but never intersect.
+            \item Has a \textbf{Fractal Dimension} (approx. 2.06).
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+% ---------------------------------------------------------
+% Summary
+% ---------------------------------------------------------
+\section{Summary}
+
+\begin{frame}
+    \frametitle{Summary}
+    \begin{enumerate}
+        \item \textbf{Conditions for Chaos:}
+        \begin{itemize}
+            \item Nonlinearity is essential.
+            \item Discrete systems: Possible in 1D.
+            \item Continuous systems: Requires $\ge 3$D.
+        \end{itemize}
+        \item \textbf{Signatures:}
+        \begin{itemize}
+            \item Sensitivity to initial conditions ($\lambda > 0$).
+            \item Aperiodic behavior.
+            \item Stretching and folding mechanism.
+        \end{itemize}
+    \end{enumerate}
+    
+    \vspace{0.5cm}
+    \textbf{Next Step:} We will explore complex systems with many variables.
+\end{frame}
+
+\end{document}

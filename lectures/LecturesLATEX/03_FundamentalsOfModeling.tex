@@ -1,0 +1,265 @@
+\documentclass{beamer}
+\usetheme{Berlin}
+
+\title{Fundamentals of Modeling Part 2}
+\subtitle{Course: Complex Systems Modeling}
+\author{Robert Flassig}
+\institute{Brandenburg University of Applied Sciences}
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+\end{frame}
+
+\section{How to create a model}
+
+\begin{frame}{Approaches to Scientific Model Building}
+    There are two major families of modeling approaches in science and engineering:
+    \begin{itemize}
+        \item \textbf{Descriptive Modeling}
+        \item \textbf{Rule-Based Modeling}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Descriptive Modeling}
+    In descriptive modeling, researchers aim to specify the actual state of a system at a given time. Examples include:
+    \begin{itemize}
+        \item Taking a picture
+        \item Creating a miniature
+        \item Writing a biography
+    \end{itemize}
+    This can also be done using quantitative methods like:
+    \begin{itemize}
+        \item Regression analysis
+        \item Pattern recognition
+    \end{itemize}
+    Goal: Capture "What the system looks like."
+\end{frame}
+
+\begin{frame}{Rule-Based Modeling}
+    In rule-based modeling, researchers define dynamical rules to explain system behavior. Examples include:
+    \begin{itemize}
+        \item Dynamical equations
+        \item Theories
+        \item First principles
+    \end{itemize}
+    This approach helps predict future states and can be quantitative or conceptual (e.g., Darwin's evolutionary theory).
+    \newline
+    Goal: Capture "How the system will behave."
+\end{frame}
+
+\begin{frame}{Cycle of Descriptive and Rule-Based Modeling}
+    Newton's law of motion is an example of rule-based modeling, making sense of observational information and predicting planetary movement.
+    \newline
+    Descriptive modeling accumulates descriptions, while rule-based modeling explains them. These two approaches form a cycle in scientific modeling, taking turns in driving discoveries.
+\end{frame}
+
+\begin{frame}{Focus on Rule-Based Modeling}
+    This course focuses on rule-based modeling, particularly for complex systems. Rule-based models help:
+    \begin{itemize}
+        \item Understand emergence
+        \item Study self-organization
+    \end{itemize}
+    This is done through computer simulation and mathematical analysis at microscopic scales.
+\end{frame}
+
+\begin{frame}{Typical Rule-Based Modeling Cycle}
+    The typical steps of rule-based modeling include:
+    \begin{enumerate}
+        \item Observe the system of interest.
+        \item Reflect on possible rules causing the observed characteristics.
+        \item Derive predictions and compare with reality.
+        \item Modify the rules and repeat the cycle.
+    \end{enumerate}
+    Termination is based on the modeler's satisfaction or resource limitations.
+\end{frame}
+
+\begin{frame}{Challenges in Rule-Based Modeling}
+    Among the four steps, reflecting on possible rules is particularly challenging because:
+    \begin{itemize}
+        \item It relies heavily on the modeler's personal knowledge and experience.
+        \item It is deeply connected to how one perceives the world, making it a difficult process to teach or learn.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Examples}
+Here are some examples...
+\end{frame}
+
+\begin{frame}{Examples of Descriptive vs. Rule-Based Models}
+\begin{columns}
+\column{0.48\textwidth}
+\textbf{Descriptive (What it looks like)}
+\begin{itemize}
+  \item Regression of temperature vs.\ CO2
+  \item Population data fitting
+  \item Image-based pattern recognition
+  \item Empirical load forecasting
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Rule-Based (How it behaves)}
+\begin{itemize}
+  \item Pendulum dynamics
+  \item Lotka--Volterra predator--prey
+  \item Heat diffusion
+  \item Sierpiński carpet (geometric rule)
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textit{Upcoming: explore these models interactively in the Jupyter notebook.}\\
+\textit{But first, let's dig into key considerations for modelers}
+\end{frame}
+
+
+\section{Modeling Complex Systems: Key Considerations}
+\begin{frame}{Modeling Complex Systems: Key Considerations}
+    \begin{itemize}
+        \item \textbf{Key Questions:} What are the main questions to address in the system?
+        \item \textbf{Scale of Description:} At what scale should the system's behaviors be described?
+        \begin{itemize}
+            \item Define the "microscopic" components and their dynamics.
+        \end{itemize}
+        \item \textbf{System Structure:} How is the system organized?
+        \begin{itemize}
+            \item Identify components and their interactions.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Modeling Complex Systems: Dynamics and Changes}
+    \begin{itemize}
+        \item \textbf{Possible States:} What dynamic states can each component exhibit?
+        \item \textbf{Temporal Changes:} How does the system evolve over time?
+        \begin{itemize}
+            \item Define rules for state changes due to interactions.
+            \item Determine how interactions between components change over time.
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{Exercise}
+\begin{frame}{From Examples to Model Refinement}
+
+\textbf{Goal:} Connect real-world phenomena to the process of building and refining models.
+
+\medskip
+\textbf{Examples:}
+\begin{itemize}
+    \item \textbf{Egg boiling time:}  
+          Predict yolk softness based on time and temperature.  
+          Compare a descriptive fit (empirical cooking chart) to a rule-based model (heat diffusion in a sphere).
+
+    \item \textbf{Traffic flow:}  
+          Each driver follows local rules (distance, braking, reaction time) —  
+          yet global patterns such as stop-and-go waves emerge.
+
+    \item \textbf{Population dynamics:}  
+          Simple birth–death or predator–prey rules lead to rich collective behavior
+          (equilibrium, oscillation, collapse).
+\end{itemize}
+
+\medskip
+\textbf{Exercise – Refining Your Model:}
+\begin{itemize}
+    \item Start from one of these examples or choose your own system.  
+    \item Identify the key components, interactions, and rules.  
+    \item Revise your model until it reproduces the main observable behavior.  
+    \item Prepare a short reasoning: what makes your model descriptive or rule-based?
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Example Solutions (1/3): Descriptive vs.\ Rule-Based Models}
+\small
+\textbf{Egg Boiling Time}
+\begin{itemize}
+    \item \textbf{Descriptive model:}
+          Empirical relation between cooking time $t$, water temperature $T_w$,
+          and yolk softness $S$:
+          \[
+          S = a - b\,e^{-c\,t(T_w - 100)}.
+          \]
+          Captures observed outcomes without physical reasoning.
+
+    \item \textbf{Rule-based model:}
+          Transient heat diffusion inside a spherical egg:
+          \[
+          \frac{\partial T}{\partial t} = \alpha \nabla^2 T, \qquad
+          T(R,t)=T_w,\; T(0,0)=T_0.
+          \]
+          The egg is “soft” when the yolk center reaches $T(0,t)=T_y$.
+\end{itemize}
+
+\vspace{0.5em}
+\textit{Interpretation:}  
+Descriptive models fit data; rule-based models explain underlying heat transport.
+\end{frame}
+
+\begin{frame}{Example Solutions (2/3): Descriptive vs.\ Rule-Based Models}
+\tiny
+\textbf{Traffic Flow}
+\begin{itemize}
+    \item \textbf{Descriptive model:}
+          Empirical \emph{fundamental diagram} relating density $\rho$ and mean speed $v(\rho)$:
+          \[
+          q(\rho) = \rho\,v(\rho),
+          \quad v(\rho) \approx v_\text{max}\!\left(1 - \frac{\rho}{\rho_\text{max}}\right).
+          \]
+          Derived from aggregated traffic data.
+
+    \item \textbf{Rule-based model:}
+          Microscopic car-following dynamics for vehicle $i$:
+          \[
+          \frac{dv_i}{dt}
+          = a\!\left(1-\frac{v_i}{v_0}\right)
+          - b\!\left(\frac{s^*(v_i,\Delta v_i)}{s_i}\right)^2,
+          \]
+          where each driver adjusts acceleration based on distance and speed difference.
+\end{itemize}
+
+\vspace{0.5em}
+\textit{Interpretation:}  
+Local driving rules create global phenomena such as stop-and-go waves.
+\end{frame}
+
+\begin{frame}{Example Solutions (3/3): Descriptive vs.\ Rule-Based Models}
+\tiny
+\textbf{Population Dynamics}
+\begin{itemize}
+    \item \textbf{Descriptive model:}
+          Logistic growth fitted to measured population data:
+          \[
+          N(t) = \frac{K}{1 + e^{-r(t - t_0)}}.
+          \]
+          Describes saturation but not interaction mechanisms.
+
+    \item \textbf{Rule-based model:}
+          Lotka--Volterra predator–prey system:
+          \[
+          \frac{dx}{dt} = \alpha x - \beta x y, \qquad
+          \frac{dy}{dt} = \delta x y - \gamma y.
+          \]
+          Captures feedback between resource and consumer populations.
+\end{itemize}
+
+\vspace{1em}
+\textbf{Takeaway}
+\begin{itemize}
+    \item Descriptive $\Rightarrow$ summarizes observed behavior (\emph{what is}).
+    \item Rule-based $\Rightarrow$ encodes mechanisms (\emph{how it changes}).
+    \item Model refinement connects both: fit parameters $\leftrightarrow$ test rules.
+\end{itemize}
+
+\end{frame}
+
+
+
+\end{document}

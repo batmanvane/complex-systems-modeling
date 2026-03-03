@@ -1,0 +1,563 @@
+\documentclass{beamer}
+\usetheme{Berlin}
+
+\title{Systems with a Small Number of
+Variables}
+\subtitle{Course: Complex Systems Modeling}
+\author{Robert Flassig}
+\institute{Brandenburg University of Applied Sciences}
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+\end{frame}
+
+\section{Continuous-Time Dynamical System}
+
+\begin{frame}
+\frametitle{Continuous-Time Models with Differential Equations 1/2}
+
+\begin{itemize}
+	\scriptsize
+    \item Continuous-time models are described using differential equations.
+    \item These models are prevalent in science and engineering due to their ability to represent natural phenomena occurring smoothly over time (e.g., motion of objects, flow of electric current).
+\end{itemize}
+
+\begin{block}{General Formulation of a First-Order Continuous-Time Model}
+\[
+\frac{dx}{dt} = F(x, t)
+\]
+\begin{itemize}
+    \item \(x\): State of the system (scalar or vector variable).
+    \item \(\frac{dx}{dt}\): Time derivative of \(x\), formally defined as:
+    \[
+    \frac{dx}{dt} = \lim_{\delta t \to 0} \frac{x(t + \delta t) - x(t)}{\delta t}
+    \]
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Continuous-Time Models with Differential Equations 2/2}
+
+\begin{itemize}
+    \item Integrating the model over time \(t\) provides the system's trajectory.
+    \item Integration can sometimes be performed algebraically, but computational simulation (numerical integration) is often used in practice.
+    \item A fundamental assumption:
+    \begin{itemize}
+        \item Trajectories of the system's state are smooth everywhere in the phase space.
+        \item Instantaneous abrupt changes, possible in discrete-time models, do not occur in continuous-time models.
+    \end{itemize}
+    $\rightarrow$ Recall discussion on the assumptions of the  predator-prey model, e.g. $1.4$ rabbit, $2.5$ wolves. Also small vs. large number of entities - continuum assumption.
+\end{itemize}
+
+\end{frame}
+
+% Frame 1: Introduction to Classifications of Model Equations
+\begin{frame}
+\frametitle{Classifications of Model Equations}
+
+\begin{itemize}
+    \item We may distinct between \underline{linear} and \underline{nonlinear systems}, as well as \underline{autonomous} and \underline{non-autonomous systems}.
+    \begin{itemize}
+        \item \underline{First-order systems}: Involve only first-order derivatives (\(\frac{dx}{dt}\)).
+        \item \underline{Higher-order systems}: Involve higher-order derivatives (\(\frac{d^2x}{dt^2}, \frac{d^3x}{dt^3}, \ldots\)).
+    \end{itemize}
+    \item Non-autonomous, higher-order systems can always be transformed into:
+    \begin{itemize}
+        \item Autonomous, first-order forms.
+        \item This is achieved by introducing additional state variables.
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Classification of Systems: Linear vs. Nonlinear}
+\begin{columns}[T,onlytextwidth]
+    \column{0.48\textwidth}
+    \textbf{Linear Systems}
+    \begin{itemize}
+        \item \(\dot{\mathbf{x}} = A\mathbf{x} + B\mathbf{u}\)
+        \item Scalar: \(\dot{x} = a x + b u\)
+        \item Superposition principle holds
+    \end{itemize}
+
+    \column{0.48\textwidth}
+    \textbf{Nonlinear Systems}
+    \begin{itemize}
+        \item \(\dot{\mathbf{x}} = f(\mathbf{x}, \mathbf{u})\)
+        \item Scalar: \(\dot{x} = a x^2 + b u\)
+        \item Complex dynamics: chaos, bifurcations, limit cycles
+    \end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Classification of Systems: Autonomous vs. Non-Autonomous}
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+    %-------------------------------------
+    \column{0.48\textwidth}
+    \textbf{Autonomous Systems}
+    \begin{itemize}
+        \item Evolution depends only on the state, not explicitly on time.
+        \item \textbf{Matrix form:}
+        \[
+        \dot{\mathbf{x}} = A\mathbf{x}
+        \]
+        \item \textbf{Scalar example:}
+        \[
+        \frac{dx}{dt} = a x
+        \]
+        \item System is \textit{time-invariant} → suitable for phase-space or equilibrium analysis.
+    \end{itemize}
+
+    %-------------------------------------
+    \column{0.48\textwidth}
+    \textbf{Non-Autonomous Systems}
+    \begin{itemize}
+        \item Explicit time-dependence in the equations or inputs.
+        \item \textbf{Matrix form:}
+        \[
+        \dot{\mathbf{x}} = A(t)\mathbf{x} + B(t)\mathbf{u}(t)
+        \]
+        \item \textbf{Scalar example:}
+        \[
+        \frac{dx}{dt} = a(t) x + b(t)
+        \]
+        \item Require special treatment for time-dependent forcing or varying parameters.
+    \end{itemize}
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Example: Pendulum Dynamics}
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+
+  %---------------------------------------
+  \column{0.56\textwidth}
+  \textbf{Second-order (nonlinear) equation of motion:}
+  \[
+    \frac{d^2\theta}{dt^2} = -\frac{g}{L}\sin\theta
+  \]
+
+  \textbf{Interpretation:}
+  \begin{itemize}\itemsep2pt
+    \item The restoring torque is proportional to \(-\sin\theta\).
+    \item Equation is second-order and nonlinear.
+    \item For large angles, motion deviates from simple harmonic behavior.
+  \end{itemize}
+
+  %---------------------------------------
+  \column{0.44\textwidth}
+  \textbf{Variables}
+  \vspace{-4pt}
+  \begin{itemize}\itemsep2pt
+    \item \( \theta \): angular position
+    \item \( g \): gravitational acceleration
+    \item \( L \): pendulum length
+  \end{itemize}
+
+  \vspace{2pt}
+  \textbf{Remarks}
+  \vspace{-4pt}
+  \begin{itemize}\itemsep2pt
+    \item Nonlinear due to \( \sin\theta \)
+    \item Linearization possible for small angles
+  \end{itemize}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Converting to a First-Order System}
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+
+  %---------------------------------------
+  \column{0.56\textwidth}
+  Introduce angular velocity:
+  \[
+    \omega = \frac{d\theta}{dt}
+  \]
+
+  Substitute into the second-order equation:
+  \[
+    \begin{aligned}
+      \dot{\theta} &= \omega, \\
+      \dot{\omega} &= -\frac{g}{L}\sin\theta
+    \end{aligned}
+  \]
+
+  Compactly written as:
+  \[
+    \dot{\mathbf{x}} =
+    \begin{bmatrix}
+      \omega \\[2pt]
+      -\dfrac{g}{L}\sin\theta
+    \end{bmatrix},
+    \quad
+    \mathbf{x} =
+    \begin{bmatrix}
+      \theta \\[2pt]
+      \omega
+    \end{bmatrix}
+  \]
+
+  %---------------------------------------
+  \column{0.44\textwidth}
+  \textbf{Notes}
+  \vspace{-4pt}
+  \begin{itemize}\itemsep2pt
+    \item Two coupled first-order ODEs
+    \item Nonlinear due to \( \sin\theta \)
+    \item Enables phase-plane analysis and simulation
+  \end{itemize}
+
+\end{columns}
+\end{frame}
+\begin{frame}
+\frametitle{Linearized Pendulum (Small Angles)}
+\scriptsize
+
+\begin{columns}[T,onlytextwidth]
+
+  %---------------------------------------
+  \column{0.56\textwidth}
+  For small angles, approximate \(\sin\theta \approx \theta\):
+  \[
+    \begin{aligned}
+      \dot{\theta} &= \omega,\\[-2pt]
+      \dot{\omega} &= -\frac{g}{L}\theta
+    \end{aligned}
+  \]
+
+  \textbf{Matrix form:}
+  \[
+    \dot{\mathbf{x}} =
+    \underbrace{\begin{bmatrix}
+      0 & 1\\[2pt]
+      -\dfrac{g}{L} & 0
+    \end{bmatrix}}_{A}
+    \mathbf{x}
+  \]
+
+  %---------------------------------------
+  \column{0.44\textwidth}
+  \textbf{Remarks}
+  \vspace{-4pt}
+  \begin{itemize}\itemsep2pt
+    \item Linear time-invariant (LTI) system
+    \item Represents a \textit{simple harmonic oscillator}
+    \item Solution:
+      \[
+        \theta(t) = \theta_0 \cos(\sqrt{g/L}\,t)
+      \]
+    \item Basis for control and small-signal stability analysis
+  \end{itemize}
+
+\end{columns}
+\end{frame}
+
+
+
+\begin{frame}
+\frametitle{Conversion of Higher-Order Equations}
+
+\begin{itemize}
+    \item The technique for converting higher-order equations to first-order forms works for:
+    \begin{itemize}
+        \item 3rd/4th/.../-order equations,
+        \item Any higher-order equations (as long as the highest order is finite).
+    \end{itemize}
+    \item This method ensures equations are represented as autonomous, first-order systems for analysis and simulation.
+\end{itemize}
+
+\begin{block}{Key Advantage}
+Autonomous, first-order forms are universal and cover all dynamics of higher-order and non-autonomous systems.
+\end{block}
+
+\end{frame}
+
+\section{Example}
+
+\begin{frame}
+
+\frametitle{A Non-Autonomous Driven Pendulum}
+
+\begin{block}{Second-Order Non-Autonomous Equation}
+\[
+\frac{d^2\theta}{dt^2} = -\frac{g}{L} \sin\theta + k \sin(2\pi f t + \phi) \tag{6.7}
+\]
+\begin{itemize}
+    \item Describes a driven pendulum with:
+    \begin{itemize}
+        \item \(\frac{g}{L}\): Gravitational term.
+        \item \(k \sin(2\pi f t + \phi)\): Periodic external force, e.g., from an electromagnet.
+    \end{itemize}
+    \item This equation is nonlinear and non-autonomous due to explicit time-dependence (\(t\)).
+\end{itemize}
+\end{block}
+
+\begin{itemize}
+    \item Goal: Convert it into a first-order, autonomous system.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Step 1: First-Order Conversion}
+
+\begin{block}{Introduce \(\omega = \frac{d\theta}{dt}\)}
+\begin{align}
+\frac{d\theta}{dt} &= \omega \tag{6.8} \\
+\frac{d\omega}{dt} &= -\frac{g}{L} \sin\theta + k \sin(2\pi f t + \phi) \tag{6.9}
+\end{align}
+\end{block}
+
+\begin{itemize}
+    \item \(\omega\): Angular velocity of the pendulum.
+    \item The system is now in first-order form but still non-autonomous due to explicit \(t\) in the sine term.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Step 2: Eliminating Time Dependency}
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+
+  %---------------------------------------
+  \column{0.56\textwidth}
+  \textbf{Introduce a clock variable \(\tau\):}
+  \[
+    \frac{d\tau}{dt} = 1, \qquad \tau(0)=0
+  \]
+  \vspace{-4pt}
+  \begin{itemize}\itemsep1.5pt
+    \item Ensures \(\tau(t) = t\).
+    \item Replaces explicit time dependence with state variable \(\tau\).
+    \item Converts a non-autonomous system into an autonomous one.
+  \end{itemize}
+
+  \vspace{4pt}
+  \textbf{Original (time-dependent) term:}
+  \[
+    k\sin(2\pi f t + \phi)
+  \]
+  becomes
+  \[
+    k\sin(2\pi f \tau + \phi)
+  \]
+
+  %---------------------------------------
+  \column{0.44\textwidth}
+  \textbf{Resulting autonomous system:}
+  \[
+  \begin{aligned}
+    \dot{\theta} &= \omega,\\[-2pt]
+    \dot{\omega} &= -\frac{g}{L}\sin\theta 
+                   + k\sin(2\pi f\tau + \phi),\\[-2pt]
+    \dot{\tau}   &= 1
+  \end{aligned}
+  \]
+  \vspace{-2pt}
+  \textbf{Notes}
+  \vspace{-3pt}
+  \begin{itemize}\itemsep1.5pt
+    \item System now autonomous in \((\theta,\omega,\tau)\).
+    \item Useful for phase-space analysis and numerical integration.
+  \end{itemize}
+
+\end{columns}
+\end{frame}
+
+\begin{frame}
+\frametitle{Key Insights from the Conversion Process}
+
+\begin{itemize}
+    \item Any higher-order, non-autonomous system can be converted into a first-order, autonomous system by:
+    \begin{itemize}
+        \item Introducing new state variables for higher-order derivatives.
+        \item Replacing explicit time dependencies with a clock variable (\(\tau\)).
+    \end{itemize}
+    \item The resulting equations:
+    \begin{itemize}
+        \item Are always first-order.
+        \item Have no explicit time dependency (autonomous).
+    \end{itemize}
+\end{itemize}
+
+\begin{block}{General Utility}
+This method ensures compatibility with standard tools for analyzing first-order, autonomous systems.
+\end{block}
+
+\end{frame}
+
+\section{Exercise}
+
+%------------------------------------------
+\begin{frame}
+\frametitle{Exercise 1: Convert to First-Order Form}
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+
+  %---------------------------------------
+  \column{0.55\textwidth}
+  \textbf{Given Equation:}
+  \[
+    \frac{d^2x}{dt^2} - x\frac{dx}{dt} + x^2 = 0
+  \]
+
+  \textbf{Introduce a new variable:}
+  \[
+    v = \frac{dx}{dt}
+  \]
+
+  Substitute and rewrite:
+  \[
+    \begin{aligned}
+      \dot{x} &= v,\\[-2pt]
+      \dot{v} &= x v - x^2
+    \end{aligned}
+  \]
+
+  %---------------------------------------
+  \column{0.45\textwidth}
+  \textbf{First-Order System:}
+  \[
+    \begin{aligned}
+      \dot{x} &= v,\\[-2pt]
+      \dot{v} &= x v - x^2
+    \end{aligned}
+  \]
+
+  \vspace{-2pt}
+  \textbf{Remarks:}
+  \vspace{-4pt}
+  \begin{itemize}\itemsep1.5pt
+    \item Nonlinear due to product term \(xv\).
+    \item Expressed as a system of two coupled ODEs.
+    \item Easier to simulate or visualize in the phase plane.
+  \end{itemize}
+
+\end{columns}
+\end{frame}
+%------------------------------------------
+\begin{frame}
+\frametitle{Exercise 2: Convert to Autonomous, First-Order Form}
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+
+  %---------------------------------------
+  \column{0.55\textwidth}
+  \textbf{Given Equation:}
+  \[
+    \frac{d^2x}{dt^2} - a\cos(bt) = 0
+  \]
+
+  \textbf{Step 1: Introduce} \( v = \frac{dx}{dt} \)
+  \[
+    \dot{x} = v, \qquad \dot{v} = a\cos(bt)
+  \]
+
+  \textbf{Step 2: Eliminate explicit time dependency:}
+  \[
+    \frac{d\tau}{dt} = 1, \quad \tau(0)=0
+  \]
+
+  Replace \(t \to \tau\) in the forcing term:
+  \[
+    \cos(bt) \to \cos(b\tau)
+  \]
+
+  %---------------------------------------
+  \column{0.45\textwidth}
+  \textbf{Autonomous, First-Order Form:}
+  \[
+    \begin{aligned}
+      \dot{x} &= v,\\[-2pt]
+      \dot{v} &= a\cos(b\tau),\\[-2pt]
+      \dot{\tau} &= 1
+    \end{aligned}
+  \]
+
+  \vspace{-2pt}
+  \textbf{Remarks:}
+  \vspace{-4pt}
+  \begin{itemize}\itemsep1.5pt
+    \item System is now autonomous in \((x,v,\tau)\).
+    \item Clock variable replaces explicit time.
+    \item Technique generalizes to many driven systems.
+  \end{itemize}
+
+\end{columns}
+\end{frame}
+
+\section{Summary}
+
+\begin{frame}
+\frametitle{Summary: Differential Equations and System Behavior}
+\scriptsize
+\begin{columns}[T,onlytextwidth]
+
+  %---------------------------------------
+  \column{0.55\textwidth}
+  \textbf{1. Typical Behaviors of Linear Systems}
+  \begin{itemize}\itemsep2pt
+    \item Exponential growth or decay
+    \item Periodic oscillations
+    \item Stationary (equilibrium) states
+    \item Combined forms, e.g. exponentially damped oscillations
+  \end{itemize}
+
+  \vspace{2pt}
+  \textbf{2. Extended Behaviors (Non-Diagonalizable Systems)}
+  \begin{itemize}\itemsep2pt
+    \item Solutions may include
+      \begin{itemize}\itemsep1pt
+        \item Polynomials in time
+        \item Products of polynomials and exponentials
+      \end{itemize}
+    \item Occurs when the coefficient matrix cannot be fully diagonalized
+  \end{itemize}
+
+  %---------------------------------------
+  \column{0.45\textwidth}
+  \textbf{3. Solvability and Methods}
+  \begin{itemize}\itemsep2pt
+    \item Linear ODEs: typically analytically solvable
+    \item Nonlinear ODEs: often require numerical integration
+    \item Many nonlinear systems exhibit complex phenomena:
+      \begin{itemize}\itemsep1pt
+        \item Chaos, bifurcations, limit cycles
+      \end{itemize}
+  \end{itemize}
+
+  \vspace{4pt}
+  \begin{block}{Key Insight}
+  Understanding these distinctions guides model selection  
+  and the choice of analytical vs.\ numerical solution methods.
+  \end{block}
+
+\end{columns}
+\end{frame}
+
+
+\end{document}

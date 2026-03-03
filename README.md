@@ -92,6 +92,12 @@ In PyCharm:
 
 ---
 
+## Disclaimer
+
+> This repository was built incrementally during the semester as a teaching resource. Every effort has been made to respect copyrights and to give proper credit wherever third-party material (figures, text, or ideas) is used. If you believe any content inadvertently infringes on your copyright, please open an issue or contact me directly and I will address it promptly.
+
+---
+
 ## Contributing
 
 - Spot a bug or have a neat extension? Open an issue or PR with a short explanation and a minimal example.  

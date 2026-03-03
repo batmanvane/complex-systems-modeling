@@ -1,0 +1,450 @@
+\documentclass{beamer}
+\usetheme{Berlin}
+
+\title{Fundamentals of Modeling}
+\subtitle{Course: Complex Systems Modeling}
+\author{Robert Flassig}
+\institute{Brandenburg University of Applied Sciences}
+\date{\today}
+
+\begin{document}
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{Outline}
+\tableofcontents
+\end{frame}
+
+\section{Models}
+\subsection{A descriptive definition}
+\begin{frame}
+\frametitle{What is a model?}
+\begin{itemize}
+\item Simplified abstraction of reality that allows us to
+\begin{itemize}
+\item describe
+\item understand\footnote{esp. via the process of modeling, hypothesis generation and rejection}
+\item predict
+\item control
+\end{itemize}
+reality.
+\end{itemize}
+\emph{"Cool, something we actually need as scientists and engineers, right?"}
+\end{frame}
+%
+\subsection{Models in Science and Engineering}
+%
+\begin{frame}
+\frametitle{Dealing with Reality}
+\begin{itemize}
+\item \emph{Science seeks to understand the world by discovering fundamental laws, such as Newton's laws of motion, the ideal gas law, Ohm's law, and the conservation of energy - some you may know}
+\item  \emph{Engineering applies the fundamental laws of nature, like Newton's laws of motion, the ideal gas law, Ohm's law, and the conservation of energy, to design and build solutions for real-world problems.}
+\end{itemize}
+\end{frame}
+%
+\begin{frame}{Scientific Effort Cycle}
+    A typical cycle of scientific effort to discover fundamental laws:
+    \begin{enumerate}
+        \item Observe nature.
+        \item Develop a hypothesis that could explain your observations.
+        \item From your hypothesis, make testable predictions through an experiment.
+        \item Carry out the experiment to verify your predictions:
+        \begin{itemize}
+            \item \textbf{Yes} $\rightarrow$ Your hypothesis is proven! Uncork a champagne bottle and publish a paper.
+            \item \textbf{No} $\rightarrow$ Your hypothesis was wrong. Go back to the lab, gather more data, and develop a new hypothesis.
+        \end{itemize}
+    \end{enumerate}
+%
+\emph{Many people think this is how science works. But there is at least one thing that is not quite right in the list above. What is it? Can you figure it out?}
+%
+\end{frame}
+%
+\begin{frame}
+\frametitle{Is This How Science Really Works?}
+%
+\begin{itemize}
+    \item Consider the steps of the scientific cycle discussed earlier.
+    \item Is science always a straightforward process of proving hypotheses?
+    \item Does a single experiment truly \emph{prove} a hypothesis, or is there more to scientific discovery?
+\end{itemize}
+%
+\pause
+\textbf{Hint:} Science is an iterative process, and \emph{proof} is often more nuanced than a single result.
+\end{frame}
+%
+\begin{frame}
+\frametitle{The Limits of Scientific Proof}
+\begin{itemize}
+    \item Supportive evidence from experiments does not "prove" a hypothesis; it only shows that we have failed to disprove it.
+    \item Many believe science can provide absolute proof, but this is not possible. We cannot logically reach the ultimate truth of nature.
+    \item All \emph{laws of nature}, like Newton's laws or the ideal gas law, are well-tested hypotheses. 
+    \item These laws gain credibility because scientists have consistently failed to disprove them, but they are not guaranteed to be universally or permanently correct.
+    \item Science remains open to new theories that might better explain nature.
+\end{itemize}
+\end{frame}
+%
+\begin{frame}
+\frametitle{Science and Engineering: Building and Using Models}
+\begin{itemize}
+    \item Science builds models of nature, not absolute facts. The \emph{laws of nature} are models that help us understand and predict phenomena.
+    \item Scientists must remember that these models are approximations, not definitive truths.
+    \item Engineering applies these scientific models to design and solve real-world problems, understanding that models have limitations.
+    \item Effective engineering relies on using these models while considering their assumptions and potential inaccuracies.
+    \item Both fields involve continuous refinement as new data and better models emerge.
+\end{itemize}
+\end{frame}
+%
+\subsection{Conclusion}
+\begin{frame}
+\frametitle{All Models Are Wrong, Some Are Useful}
+\begin{quote}
+    \emph{"All models are wrong, but some are useful."} \\
+    \hfill -- George E. P. Box
+\end{quote}
+
+\begin{itemize}
+    \item Models in science and engineering are simplifications of reality.
+    \item They help us understand complex systems, make predictions, and solve problems.
+    \item The key is to use models appropriately, recognizing their limitations.
+\end{itemize}
+\end{frame}
+%
+\begin{frame}
+\frametitle{What Is A Good Model? (Part 1)}
+\textbf{Take-Home Message:} A good model is \textcolor{blue}{simple}, \textcolor{blue}{valid}, and \textcolor{blue}{robust}.
+
+\small
+\begin{itemize}
+    \item \textbf{Simplicity:} 
+    \begin{itemize}
+        \item A model should be a simpler description of reality, following the principle of Occam's razor: choose the simpler model if two have equal predictive power.
+        \item Eliminate unnecessary parameters and assumptions to focus on the model's core behavior.
+    \end{itemize}
+    \item \textbf{Validity:}
+    \begin{itemize}
+        \item A model's predictions must closely match observations. Check both prediction accuracy and the "face validity" of assumptions.
+        \item Beware of the trade-off between simplicity and validity to avoid overfitting.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+%
+\begin{frame}
+\frametitle{What Is A Good Model? (Part 2)}
+\textbf{Take-Home Message:} A good model is \textcolor{blue}{simple}, \textcolor{blue}{valid}, and \textcolor{blue}{robust}.
+
+\small
+\begin{itemize}
+    \item \textbf{Robustness:}
+    \begin{itemize}
+        \item A robust model's predictions should remain stable even with minor variations in assumptions and parameters.
+        \item Robustness increases trustworthiness and real-world applicability.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+%
+\subsection{Exercise}
+%
+\begin{frame}
+\frametitle{Exercise: Comparing Models of the Solar System}
+\textbf{Task:} Humanity has created various models of the solar system throughout history. Your goal is to investigate these models and compare them in terms of simplicity, validity, and robustness.
+
+\begin{itemize}
+    \item \textbf{Models to Explore:}
+    \begin{itemize}
+        \item Ptolemy's geocentric model
+        \item Copernicus' heliocentric model
+        \item Kepler's laws of planetary motion
+        \item Newton's law of gravity
+    \end{itemize}
+\end{itemize}
+
+\textbf{Instructions:} Analyze each model based on the key criteria and be prepared to discuss your findings.
+\end{frame}
+%
+\begin{frame}
+\frametitle{Criteria for Comparison: Simplicity, Validity, and Robustness}
+\scriptsize{
+\textbf{1. Simplicity:}
+\begin{itemize}
+    \item How simple is the model in its assumptions and mathematical formulation?
+    \item Does the model use the minimum number of parameters and variables?
+\end{itemize}
+
+\textbf{2. Validity:}
+\begin{itemize}
+    \item How well does the model's prediction match observations of planetary motion?
+    \item Is the model's prediction valid across different scenarios and time periods?
+\end{itemize}
+
+\textbf{3. Robustness:}
+\begin{itemize}
+    \item How sensitive is the model to changes in its assumptions or parameters?
+    \item Does the model remain accurate under minor variations in input values?
+\end{itemize}}
+\end{frame}
+%
+\subsection{Solution (suggestion)}
+%
+\begin{frame}
+\frametitle{Ptolemy's Geocentric Model}
+\begin{itemize}
+    \item \textbf{Description:} Assumes that the Sun and planets revolve around the Earth in complex circular paths called epicycles.
+    \item \textbf{Simplicity:} Complex due to the use of epicycles to explain retrograde motion.
+    \item \textbf{Validity:} Could predict planetary positions to some extent but failed to explain them accurately over time.
+    \item \textbf{Robustness:} Sensitive to changes in observed planetary motion; required constant adjustments to epicycles.
+\end{itemize}
+\end{frame}
+%
+\begin{frame}
+\frametitle{Copernicus' Heliocentric Model}
+\begin{itemize}
+    \item \textbf{Description:} Assumes that Earth and other planets revolve around the Sun in circular orbits.
+    \item \textbf{Simplicity:} Simpler than Ptolemy's model; eliminates the need for epicycles.
+    \item \textbf{Validity:} Provided a more accurate framework but still relied on circular orbits, leading to some inaccuracies.
+    \item \textbf{Robustness:} More robust than the geocentric model but still limited by its assumption of circular orbits.
+\end{itemize}
+\end{frame}
+%
+\begin{frame}
+\frametitle{Kepler's Laws of Planetary Motion}
+\begin{itemize}
+    \item \textbf{Description:} Describes planetary orbits as ellipses with the Sun at one focus; includes laws about orbital speed and periods.
+    \item \textbf{Simplicity:} More complex mathematically but simpler in terms of assumptions compared to circular orbits.
+    \item \textbf{Validity:} Highly valid; accurately predicts planetary positions and motions.
+    \item \textbf{Robustness:} Robust in various contexts; not overly sensitive to minor changes in parameters.
+\end{itemize}
+\end{frame}
+%
+\begin{frame}
+\frametitle{Newton's Law of Gravity}
+\begin{itemize}
+    \item \textbf{Description:} Proposes that the gravitational force between two objects is proportional to their masses and inversely proportional to the square of their distance.
+    \item \textbf{Simplicity:} Uses a single law to describe a wide range of phenomena; conceptually simple, mathematically more complex.
+    \item \textbf{Validity:} Extremely valid; matches observations of planetary motion and other gravitational phenomena.
+    \item \textbf{Robustness:} Highly robust; predictions hold under various conditions, though it has limitations at very large scales (addressed by Einstein's theory of general relativity).
+\end{itemize}
+\end{frame}
+%
+\begin{frame}
+\frametitle{Summary and Discussion}
+\begin{itemize}
+    \item \textbf{Ptolemy's Model:} Complex and less valid; lacked robustness.
+    \item \textbf{Copernicus' Model:} Simpler and more valid but not entirely robust.
+    \item \textbf{Kepler's Model:} Balanced simplicity with validity; robust in predicting planetary motion.
+    \item \textbf{Newton's Model:} Simple in concept, highly valid, and robust across many contexts.
+\end{itemize}
+
+\textbf{Discussion:} How do these models illustrate the trade-offs between simplicity, validity, and robustness? Which model do you think is the most effective, and why?
+\end{frame}
+%
+
+
+
+%
+\section{Modeling Approaches and Methodologies}
+%
+
+\subsection{Simple Models}
+
+\begin{frame}
+\frametitle{Simple Models in Science and Engineering}
+\begin{itemize}
+    \item \textbf{Characteristics:} 
+    \begin{itemize}
+        \item Involve a small number of states or variables.
+        \item Use simple mathematical relationships (often linear).
+    \end{itemize}
+    \item \textbf{Examples:}
+    \begin{itemize}
+        \item \textbf{Newton's Laws of Motion:} Describe the motion of objects using basic ODEs.
+        \item \textbf{Ohm's Law:} Relates voltage, current, and resistance in electrical circuits with a simple linear equation.
+        \item \textbf{Ideal Gas Law:} An algebraic model linking pressure, volume, and temperature in gases.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Advanced Models}
+
+\begin{frame}
+\frametitle{Advanced Models in Science and Engineering}
+\begin{itemize}
+    \item \textbf{Characteristics:} 
+    \begin{itemize}
+        \item Involve a large number of states or variables.
+        \item Often described by complex equations, requiring numerical simulations.
+    \end{itemize}
+    \item \textbf{Examples:}
+    \begin{itemize}
+        \item \textbf{Lotka-Volterra Model:} 
+        \begin{itemize}
+            \item Models predator-prey interactions using a system of ODEs.
+            \item Describes population changes over time for two species.
+        \end{itemize}
+        \item \textbf{Epidemic Models (e.g., COVID-19):} 
+        \begin{itemize}
+            \item Use systems of ODEs (like SIR models) to simulate virus dynamics.
+            \item Consider factors such as infection rates, recovery, and population movements.
+        \end{itemize}
+        \item \textbf{Climate Models:} 
+        \begin{itemize}
+            \item Use PDEs to represent atmospheric dynamics.
+            \item Require significant computational resources to solve.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsubsection{Example: Finite Element Method (FEM) Modeling}
+
+\begin{frame}
+\frametitle{ Example Finite Element Method (FEM) Modeling}
+\begin{itemize}
+    \item \textbf{Characteristics:} 
+    \begin{itemize}
+        \item Breaks down complex structures into smaller, simpler elements.
+        \item Solves PDEs numerically, providing approximate solutions to problems in engineering.
+    \end{itemize}
+    \item \textbf{Applications:}
+    \begin{itemize}
+        \item Structural analysis in civil engineering (e.g., stress and strain in buildings).
+        \item Heat transfer problems in mechanical engineering.
+        \item Fluid dynamics simulations in aerospace engineering.
+    \end{itemize}
+    \item \textbf{Advantages:}
+    \begin{itemize}
+        \item Handles complex geometries, material properties, and boundary conditions.
+        \item Useful for problems with a large number of variables and states.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Statistical Models}
+
+\begin{frame}
+\frametitle{Statistical Models in Science and Engineering}
+\begin{itemize}
+    \item \textbf{Characteristics:} 
+    \begin{itemize}
+        \item Use statistical methods to model data, incorporating randomness and uncertainty.
+        \item Often used in situations with large datasets or where underlying processes are not fully understood.
+    \end{itemize}
+    \item \textbf{Examples:}
+    \begin{itemize}
+        \item \textbf{Regression Models:} Linear and logistic regression for predicting trends in data.
+        \item \textbf{Machine Learning Models:} Neural networks, decision trees, and clustering algorithms to identify patterns in complex data.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Classification of Models by State Complexity}
+
+\begin{frame}
+\frametitle{Classification: Small vs. Large Number of States}
+\begin{itemize}
+    \item \textbf{Small Number of States:}
+    \begin{itemize}
+        \item Typically involve a few variables or parameters.
+        \item Examples:
+        \begin{itemize}
+            \item Simple harmonic oscillator (single state variable - displacement).
+            \item Ideal gas law (few parameters - pressure, volume, temperature).
+        \end{itemize}
+    \end{itemize}
+    
+    \item \textbf{Large Number of States:}
+    \begin{itemize}
+        \item Require many variables and numerical simulations.
+        \item Examples:
+        \begin{itemize}
+            \item Lotka-Volterra predator-prey model (two interacting populations).
+            \item Epidemic models that account for susceptible, infected, and recovered populations.
+            \item FEM modeling of stress and strain in complex structures.
+        \end{itemize}
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Mathematical Representations}
+
+\begin{frame}
+\frametitle{Mathematical Representations of Models}
+\begin{itemize}
+    \item \textbf{Ordinary Differential Equations (ODEs):}
+    \begin{itemize}
+        \item Describe systems with a small number of states.
+        \item Examples: Lotka-Volterra model, simple harmonic oscillators.
+    \end{itemize}
+    
+    \item \textbf{Partial Differential Equations (PDEs):}
+    \begin{itemize}
+        \item Used for complex, distributed systems with large numbers of states.
+        \item Examples: Climate models, fluid dynamics in FEM modeling.
+    \end{itemize}
+    
+    \item \textbf{Statistical Models:}
+    \begin{itemize}
+        \item Incorporate randomness, uncertainty, and large datasets.
+        \item Examples: Regression models, machine learning algorithms.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\subsection{Conclusion}
+
+\begin{frame}
+\frametitle{Conclusion: Modeling Approaches and Methodologies (1/3)}
+\begin{itemize}
+    \item \textbf{Models as Tools:} 
+    \begin{itemize}
+        \item All models, whether simple or complex, serve as tools to understand, predict, and manipulate natural phenomena.
+    \end{itemize}
+    
+    \item \textbf{Diversity of Models:} 
+    \begin{itemize}
+        \item \textbf{Simple Models:} (e.g., Newton's laws, ideal gas law) provide foundational insights with fewer variables.
+        \item \textbf{Advanced Models:} (e.g., Lotka-Volterra, FEM) capture complex interactions and dynamics with greater detail.
+        \item \textbf{Statistical Models:} Handle uncertainty and large datasets, essential for fields like machine learning.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion: Modeling Approaches and Methodologies (2/3)}
+\begin{itemize}
+    \item \textbf{Model Limitations:} 
+    \begin{itemize}
+        \item No model perfectly represents reality.
+        \item Each model has assumptions and approximations that define its scope of applicability.
+    \end{itemize}
+    
+    \item \textbf{Modeling Methodologies:}
+    \begin{itemize}
+        \item \textbf{ODEs and PDEs:} Describe dynamic systems, essential in fields like physics, biology, and engineering.
+        \item \textbf{Numerical Methods (e.g., FEM):} Allow solving complex problems that lack analytical solutions.
+        \item \textbf{Statistical Approaches:} Useful for dealing with randomness and data-driven insights.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{Conclusion: Modeling Approaches and Methodologies (3/3)}
+\begin{itemize}
+    \item \textbf{Future Perspectives:} 
+    \begin{itemize}
+        \item Continuous development of more accurate and computationally efficient models.
+        \item Enhancing our ability to tackle increasingly complex real-world challenges.
+        \item Integration of interdisciplinary knowledge to build more comprehensive models.
+    \end{itemize}
+    
+    \item \textbf{Key Takeaway:} 
+    \begin{itemize}
+        \item Models are indispensable tools in science and engineering, but we must always be mindful of their limitations and the assumptions they are built upon.
+    \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}

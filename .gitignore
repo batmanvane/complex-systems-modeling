@@ -59,8 +59,19 @@ venv.bak/
 ehthumbs.db
 Thumbs.db
 
+# LaTeX build artifacts
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.synctex.gz
+*.toc
+*.vrb
+
 # Course specific
 *_SOLUTIONS.ipynb
 *_SOLUTION.ipynb
 solutions_hidden/
 grading_private/
+exam/
